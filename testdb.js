@@ -15,4 +15,5 @@ const db = require('./models')
 //     process.exit()
 // })
 
-// -------- 
+// -------- DB Test modeling 
+    //TODO: scratch model structure and basic writing logic
