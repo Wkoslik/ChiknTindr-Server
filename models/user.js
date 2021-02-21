@@ -1,49 +1,86 @@
 const mongoose = require('mongoose')
 
 const options = {
-    timestamps: true,
-    id: false,
-    toJSON: {
-        virtuals: true,
-        transform: (_doc, userDocToReturn) =>{
-            delete userDocToReturn.password
-            return userDocToReturn
-        }
-    }
+	timestamps: true,
+	id: false,
+	toJSON: {
+		virtuals: true,
+		transform: (_doc, userDocToReturn) =>{
+			delete userDocToReturn.password
+			return userDocToReturn
+		}
+	}
 }
-//TODO: create location, FriendsList, ctInstance, Prefrences, chats Schema for Embedding
-// location Schema
+const userInstanceSchema = new mongoose.Schema({
+	instance: {
+		type: MONGOOSE.Schema.Types.ObjectId,
+		ref: 'Instance'
+	},
+	users: [{
+		type: MONGOOSE.Schema.Types.ObjectId,
+		ref: 'User'
+	}],
+	complete: Boolean
+})
 
-// friendsList Schema - ref other users only refrence array for now
-
-// ctInstance Schema - "Chikn Tindr instance" -ref to model object id
-
-// Prefrence Schema - Pref array 
-    // or their own embedded schema? Initially containing Fav Rest and Want to go?
+// const prefSchema = new mongoose.Schema({
+// 	preferences: Array,
+// 	wantToGo: Array,
+// 	favorites: [{
+// 		name: String,
+// 		yelpId: String, 
+// 		img: String
+// 	}]
+// })
+const userChatSchema = new.mongoose.Schema({
+	chatId: {
+		type: MONGOOSE.Schema.Types.ObjectId,
+		ref: 'Chat'
+	},
+	name: {type: String, default: "chat"},
+	users: [{
+		type: MONGOOSE.Schema.Types.ObjectId,
+		ref: 'User'
+	}]
+})
 
 
 // userChat Schema
 
 const userSchema = new mongoose.Schema({
-    name:{
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    //TODO: Add User: location, FL, ctInstance, Prefrences
-    friendsList: [{
-        type: MONGOOSE.Schema.Types.ObjectId,
-        ref: 'User'
-    }],
-    ctInstance: [ctInstance]
+	name:{
+		type: String,
+		required: true
+	},
+	email: {
+		type: String,
+		required: true,
+		unique: true
+	},
+	password: {
+		type: String,
+		required: true
+	},
+	location: {
+		zip: Number,
+		address: String,
+		city: String,
+	},
+	friendsList: [{
+		type: MONGOOSE.Schema.Types.ObjectId,
+		ref: 'User'
+	}],
+	userInstances: [userInstanceSchema],
+	preferences:{
+		userPreferences: Array,
+		wantToGo: Array,
+		favorites: [{
+		name: String,
+		yelpId: String, 
+		img: String
+		}]
+	},
+	chats: [userChatSchema]
 }, options)
 
 module.exports = mongoose.model('User', userSchema)
