@@ -19,5 +19,7 @@ mongoose.connection.once('open', () =>{
 //console log on error
 mongoose.connection.on('error', err => console.log(`❌ Connection failed`, err))
 
-//export
+// export
+//TODO: Export chat model 
+module.exports.InstanceCT = require('./instance')
 module.exports.User = require('./user')
