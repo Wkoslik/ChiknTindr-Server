@@ -10,9 +10,15 @@ router.get('/', (req,res) =>{
     //..has created an instance with a friend
     
 })
+router.get('/profile', (req, res) => {
+    // call for user model data for self
+        // profile updates and other display for other info info
+        // is this just handled for auth? /private?
 
+})
 router.get('/preferences', (req, res) => {
     //display all users preferences on the screen
+    //TODO: determine if this is just restaurant preferences or also location data
 })
 
 router.put('/preferences/update', (req, res) =>{
