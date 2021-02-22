@@ -11,30 +11,27 @@ const restSchema = MONGOOSE.Schema({
   price: String,
   yelpID: String,
   number: String,
-  categories: Array, 
-  url: String,
+  categories: Array, //Array will come back with yelp objects structured alias / display 
+  yelpUrl: String,
   imageUrl: String,
-  // coordinates: {
-  //   longitude: String,
-  //   lattitude: String
-  // },
-  location: Array,
-  chinknTindr: {
-    users: Array,
+  location: Array, //can get display address or combo address details
+  match: {
+    liked: Array,
     match: {
       type: Boolean,
       default: false
     } 
   }
 })
-
+//* changing instance to matchgame for semantic sense
 // Instance schema
-const instanceCTSchema = MONGOOSE.Schema({
+const matchGameSchema = MONGOOSE.Schema({
   users: [{
     type: MONGOOSE.Schema.Types.ObjectId,
     ref: 'User'
   }],
   date: {type: Date, default: Date.now},
+  dateCreated: {type: Date, default: Date.now},
   restaurants: [restSchema],
   completed: Boolean,
   result: {
@@ -44,4 +41,4 @@ const instanceCTSchema = MONGOOSE.Schema({
 }, options)
 
 // export 
-module.exports = mongoose.model('InstanceCT', instanceCTSchema)
+module.exports = MONGOOSE.model('MatchGame', matchGameSchema)

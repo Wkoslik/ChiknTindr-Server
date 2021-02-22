@@ -14,40 +14,39 @@ const options = {
 
 const userInstanceSchema = new mongoose.Schema({
 	instance: {
-		type: MONGOOSE.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Instance'
 	},
 	users: [{
-		type: MONGOOSE.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	}],
 	complete: Boolean
 })
 
-// const prefSchema = new mongoose.Schema({
-// 	preferences: Array,
-// 	wantToGo: Array,
-// 	favorites: [{
-// 		name: String,
-// 		yelpId: String, 
-// 		img: String
-// 	}]
-// })
-const userChatSchema = new.mongoose.Schema({
+
+//*  User Favorite 
+const userFaveSchema = new mongoose.Schema({
+	name: String,
+	yelpID: String,
+	imgUrl: String
+});
+
+// TODO: add userChat to user after chat model has been built 
+const userChatSchema = new mongoose.Schema({
 	chatId: {
-		type: MONGOOSE.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Chat'
 	},
 	name: {type: String, default: "chat"},
 	users: [{
-		type: MONGOOSE.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	}]
-})
+});
 
 
-// userChat Schema
-
+//* User Schema
 const userSchema = new mongoose.Schema({
 	name:{
 		type: String,
@@ -64,19 +63,14 @@ const userSchema = new mongoose.Schema({
 	},
 	
 	friendsList: [{
-		type: MONGOOSE.Schema.Types.ObjectId,
-		ref: 'User'
-	}],
+		userId: {type: mongoose.Schema.Types.ObjectId,  ref: 'User' },
+		name: String,
+}],
 	userInstances: [userInstanceSchema],
 	preferences:{
 		userPreferences: Array,
 		wantToGo: Array,
-		//TODO: Make into schema
-		favorites: [{
-		name: String,
-		yelpId: String, 
-		img: String
-		}]
+		favorites: [userFaveSchema]
 	},
 	chats: [userChatSchema]
 }, options)
