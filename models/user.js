@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
 
 const options = {
 	timestamps: true,
@@ -12,7 +13,8 @@ const options = {
 	}
 }
 
-const userInstanceSchema = new mongoose.Schema({
+//* User instances 
+const userInstanceSchema = new Schema({
 	instance: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Instance'
@@ -25,15 +27,15 @@ const userInstanceSchema = new mongoose.Schema({
 })
 
 
-//*  User Favorite 
-const userFaveSchema = new mongoose.Schema({
+//*  User Favorite
+const userFaveSchema = new Schema({
 	name: String,
 	yelpID: String,
 	imgUrl: String
 });
 
 // TODO: add userChat to user after chat model has been built 
-const userChatSchema = new mongoose.Schema({
+const userChatSchema = new Schema({
 	chatId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Chat'
@@ -47,7 +49,7 @@ const userChatSchema = new mongoose.Schema({
 
 
 //* User Schema
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
 	name:{
 		type: String,
 		required: true
@@ -64,11 +66,10 @@ const userSchema = new mongoose.Schema({
 	
 	friendsList: [{
 		userId: {type: mongoose.Schema.Types.ObjectId,  ref: 'User' },
-		name: String,
 }],
 	userInstances: [userInstanceSchema],
 	preferences:{
-		userPreferences: Array,
+		userPreferences: [string],
 		wantToGo: Array,
 		favorites: [userFaveSchema]
 	},

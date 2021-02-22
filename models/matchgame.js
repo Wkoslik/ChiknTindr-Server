@@ -1,11 +1,12 @@
 
 // Require Mongoose 
 const MONGOOSE = require('mongoose');
+const Schema = MONGOOSE.Schema
 const options = {
   timestamps: true,
 }
 // restaurant schema
-const restSchema = MONGOOSE.Schema({
+const restSchema = new Schema({
   name: String,
   rating: Number,
   price: String,
@@ -25,13 +26,13 @@ const restSchema = MONGOOSE.Schema({
 })
 //* changing instance to matchgame for semantic sense
 // Instance schema
-const matchGameSchema = MONGOOSE.Schema({
+const matchGameSchema = new Schema({
   users: [{
     type: MONGOOSE.Schema.Types.ObjectId,
     ref: 'User'
   }],
-  date: {type: Date, default: Date.now},
-  dateCreated: {type: Date, default: Date.now},
+  date: {type: Date, default: Date.now()},
+  dateCreated: {type: Date, default: Date.now()},
   restaurants: [restSchema],
   completed: Boolean,
   result: {

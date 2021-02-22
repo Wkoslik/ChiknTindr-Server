@@ -43,6 +43,8 @@ router.post('/login', (req, res) => {
         })
 })
 
+//TODO: Move to User controller
+
 //GET  Test route
 router.get('/private', passport.authenticate('jwt', {session: false}), (req, res) =>{
     res.status(200).json({ message: 'Thou hast been granted permission to access this message'})
