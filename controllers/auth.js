@@ -87,9 +87,31 @@ router.put('/user/preferences', passport.authenticate('jwt', {session: false}), 
 router.get('/user/search', passport.authenticate('jwt', {session: false}), (req, res) =>{
     db.User.findOne({ email: req.body.email})
     .then(user => {
-        res.status(200).json(user.preferences)
+        res.status(200).json(user)
         user.preferences.userPreferences.forEach(pref =>{
             console.log(pref)
+        })
+    })
+})
+
+//invite 
+router.put('/creatematchgame', (req, res) =>{
+    db.User.findOne({ email: req.body.email})
+    .then(user => {
+        console.log(user._id)
+        // user.preferences.userPreferences.forEach(pref =>{
+        //     console.log(pref)
+        // })
+        db.MatchGame.create({
+            name: req.body.name,
+            users: [user._id, req.user._id],
+            location: req.body.location,
+            term: req.body.term,
+            dateCreated: Date.now(),
+            transactions: req.body.transactions,
+            completed: false
+        }).then(createdGame => {
+            
         })
     })
 })
