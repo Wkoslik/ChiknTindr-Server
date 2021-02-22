@@ -7,18 +7,24 @@ const options = {
 // restaurant schema
 const restSchema = MONGOOSE.Schema({
   name: String,
-  rating: String,
+  rating: Number,
   price: String,
   yelpID: String,
   number: String,
   categories: Array, 
   url: String,
   imageUrl: String,
-  coordinates: Array,
+  // coordinates: {
+  //   longitude: String,
+  //   lattitude: String
+  // },
   location: Array,
   chinknTindr: {
     users: Array,
-    Match: Boolean
+    match: {
+      type: Boolean,
+      default: false
+    } 
   }
 })
 

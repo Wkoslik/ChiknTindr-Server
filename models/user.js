@@ -11,6 +11,7 @@ const options = {
 		}
 	}
 }
+
 const userInstanceSchema = new mongoose.Schema({
 	instance: {
 		type: MONGOOSE.Schema.Types.ObjectId,
@@ -61,11 +62,7 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	location: {
-		zip: Number,
-		address: String,
-		city: String,
-	},
+	
 	friendsList: [{
 		type: MONGOOSE.Schema.Types.ObjectId,
 		ref: 'User'
@@ -74,6 +71,7 @@ const userSchema = new mongoose.Schema({
 	preferences:{
 		userPreferences: Array,
 		wantToGo: Array,
+		//TODO: Make into schema
 		favorites: [{
 		name: String,
 		yelpId: String, 
