@@ -27,10 +27,13 @@ const restSchema = new Schema({
 //* changing instance to matchgame for semantic sense
 // Instance schema
 const matchGameSchema = new Schema({
+  name: String,
   users: [{
     type: MONGOOSE.Schema.Types.ObjectId,
     ref: 'User'
   }],
+  location: String,
+  term: String,
   date: {type: Date, default: Date.now()},
   dateCreated: {type: Date, default: Date.now()},
   restaurants: [restSchema],

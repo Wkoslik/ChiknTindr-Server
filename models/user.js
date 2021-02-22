@@ -69,7 +69,9 @@ const userSchema = new Schema({
 }],
 	userInstances: [userInstanceSchema],
 	preferences:{
-		userPreferences: [string],
+		foodPreferences: [String],
+		foodPrice: String,
+		foodRating: String,
 		wantToGo: Array,
 		favorites: [userFaveSchema]
 	},
