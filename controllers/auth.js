@@ -87,33 +87,56 @@ router.put('/user/preferences', passport.authenticate('jwt', {session: false}), 
 router.get('/user/search', passport.authenticate('jwt', {session: false}), (req, res) =>{
     db.User.findOne({ email: req.body.email})
     .then(user => {
-        res.status(200).json(user)
-        user.preferences.userPreferences.forEach(pref =>{
+        user.preferences.foodPreferences.forEach(pref =>{
             console.log(pref)
         })
+        res.status(200).json(user)
     })
 })
 
 //invite 
-router.put('/creatematchgame', (req, res) =>{
+router.post('/creatematchgame', passport.authenticate('jwt', {session: false}), (req, res) =>{
     db.User.findOne({ email: req.body.email})
     .then(user => {
+        // console.log(req.body.email)
+        console.log(user.email)
         console.log(user._id)
-        // user.preferences.userPreferences.forEach(pref =>{
-        //     console.log(pref)
-        // })
+        console.log(req.user._id)
         db.MatchGame.create({
             name: req.body.name,
             users: [user._id, req.user._id],
             location: req.body.location,
             term: req.body.term,
             dateCreated: Date.now(),
-            transactions: req.body.transactions,
             completed: false
         }).then(createdGame => {
+            const gameData = {}
+            db.User.findByIdAndUpdate(
+                {_id: req.user._id}, 
+                {userInstances : [ {
+                        instance: createdGame._id,
+                        name: createdGame.name,
+                        users: [user._id, req.user._id],
+                        complete: false
+                    }
+                ]}).then(user1 => console.log(`User 1: Game pushed to model:\n ${user1}`))
+                
+                console.log(user.id, user.email)
+            db.User.findByIdAndUpdate(
+                {_id: user._id}, 
+                {userInstances : [ {
+                        instance: createdGame._id,
+                        name: createdGame.name,
+                        users: [user._id, req.user._id],
+                        complete: false
+                    }
+            ]}).then(user2 => console.log(`User 2: Game pushed to model:\n ${user2}`))
             
+            res.status(200).json(createdGame)
         })
     })
 })
+
+// Update - from game ref both users for their pref, do logic eval of pref, make query term, axios query to yelp and populate restaurants
 
 module.exports = router;

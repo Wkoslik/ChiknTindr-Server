@@ -19,6 +19,7 @@ const userInstanceSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Instance'
 	},
+	name: String,
 	users: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
