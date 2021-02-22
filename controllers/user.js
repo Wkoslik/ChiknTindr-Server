@@ -4,6 +4,7 @@
 const express = require('express')
 const db = require('../models')
 const router = express.Router()
+const passport = require('passport')
 
 router.get('/', (req,res) =>{
     //display main landing page after a user has logged in but before the user...
@@ -16,10 +17,11 @@ router.get('/profile', (req, res) => {
         // is this just handled for auth? /private?
 
 })
-router.get('/preferences', (req, res) => {
-    //display all users preferences on the screen
-    //TODO: determine if this is just restaurant preferences or also location data
+//* put req allow user read and update 
+router.get('/preferences', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message'})
 })
+    
 
 router.put('/preferences/update', (req, res) =>{
     //will accept form data and update the database 
