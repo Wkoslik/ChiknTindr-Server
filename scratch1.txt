@@ -1,0 +1,133 @@
+User:
+
+Token:
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMzNiZGZhMDlkNjZhMDc1NWFmNmJhYyIsImVtYWlsIjoidGVzdDIwQHRlc3QuY29tIiwiaWF0IjoxNjE0MDAzNzA2LCJleHAiOjE2MTQxMjM3MDZ9.kEWwi9etGYZB9zTZGXSKUaIpNGUPrXf49iqb7HuKhGg",
+  "user": {
+    "preferences": {
+      "userPreferences": [],
+      "wantToGo": [],
+      "favorites": []
+    },
+    "_id": "6033bdfa09d66a0755af6bac",
+    "name": "Tiny Tim",
+    "email": "test20@test.com",
+    "friendsList": [],
+    "userInstances": [],
+    "chats": [],
+    "createdAt": "2021-02-22T14:21:46.195Z",
+    "updatedAt": "2021-02-22T14:21:46.195Z",
+    "__v": 0
+  }
+}
+
+## User 1: In Steps 
+~~Signup
+{
+	"name": "Tiny Tim",
+	"email": "test20@test.com",
+	"password": "123123123"
+}
+
+~~ User Put /api/user - update user name
+req.body
+{
+	"name": "Roger Rabbit"
+}
+
+result
+{
+  "preferences": {
+    "userPreferences": [],
+    "wantToGo": [],
+    "favorites": []
+  },
+  "_id": "6033bdfa09d66a0755af6bac",
+  "name": "Roger Rabbit",
+  "email": "test20@test.com",
+  "friendsList": [],
+  "userInstances": [],
+  "chats": [],
+  "createdAt": "2021-02-22T14:21:46.195Z",
+  "updatedAt": "2021-02-22T14:28:34.014Z",
+  "__v": 0
+}
+
+put /user/preferences
+{
+"preferences": {
+"userPreferences": [
+	"kosher", "vegetarian"
+]
+}
+}
+
+## User2: in steps 
+{
+	"name": "Bugs Bunny",
+	"email": "test21@test.com",
+	"password": "123123123"
+}
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMzNjMjM0MDFjNDUyMDgxMzA3NTA2NCIsImVtYWlsIjoidGVzdDIxQHRlc3QuY29tIiwiaWF0IjoxNjE0MDA0Nzg4LCJleHAiOjE2MTQxMjQ3ODh9.xfCD-jSm7M7xSqsnFnoYu5flXDUHshq_CNkMt-gVNHs",
+  "user": {
+    "preferences": {
+      "userPreferences": [],
+      "wantToGo": [],
+      "favorites": []
+    },
+    "_id": "6033c23401c4520813075064",
+    "name": "Bugs Bunny",
+    "email": "test21@test.com",
+    "friendsList": [],
+    "userInstances": [],
+    "chats": [],
+    "createdAt": "2021-02-22T14:39:48.243Z",
+    "updatedAt": "2021-02-22T14:39:48.243Z",
+    "__v": 0
+  }
+}
+
+updatePref
+req.body
+{
+"preferences": {
+"userPreferences": [
+	"vegan"
+]
+}
+}
+return
+{
+  "preferences": {
+    "userPreferences": [
+      "vegan"
+    ],
+    "wantToGo": [],
+    "favorites": []
+  },
+  "_id": "6033c23401c4520813075064",
+  "name": "Bugs Bunny",
+  "email": "test21@test.com",
+  "friendsList": [],
+  "userInstances": [],
+  "chats": [],
+  "createdAt": "2021-02-22T14:39:48.243Z",
+  "updatedAt": "2021-02-22T14:45:41.602Z",
+  "__v": 0
+}
+
+~~ While on Bugs (21) search on Roger pref (20) - GET /api/user/search
+{
+	"email" : "test20@test.com" 
+}
+
+{
+  "userPreferences": [
+    "kosher",
+    "vegetarian"
+  ],
+  "wantToGo": [],
+  "favorites": []
+}

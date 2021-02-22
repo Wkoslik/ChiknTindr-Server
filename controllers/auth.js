@@ -43,6 +43,8 @@ router.post('/login', (req, res) => {
         })
 })
 
+//TODO: Move to User controller
+
 //GET  Test route
 router.get('/private', passport.authenticate('jwt', {session: false}), (req, res) =>{
     res.status(200).json({ message: 'Thou hast been granted permission to access this message'})
@@ -68,6 +70,27 @@ router.put('/user/', passport.authenticate('jwt', {session: false}), (req, res) 
     db.User.findByIdAndUpdate(req.user._id, { name: req.body.name })
     .then(user => {
         res.status(201).json(user)
+    })
+})
+
+// userPrefecences
+router.put('/user/preferences', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    db.User.findByIdAndUpdate(req.user._id, {
+        preferences: req.body.preferences
+    })
+    .then(user => {
+        res.status(201).json(user)
+    })
+})
+
+// userSearch
+router.get('/user/search', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    db.User.findOne({ email: req.body.email})
+    .then(user => {
+        res.status(200).json(user.preferences)
+        user.preferences.userPreferences.forEach(pref =>{
+            console.log(pref)
+        })
     })
 })
 

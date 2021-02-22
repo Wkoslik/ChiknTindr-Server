@@ -1,0 +1,16 @@
+// Create a user
+
+// User Create a pref
+
+// User search for another user and get pref
+
+// User send invite / make matchgame
+  // Query user inviting, get preferences
+  // create instance with other user
+    //query middlewear from front end to store the rest array 
+
+//Users play matchgame
+  //match game middlewear complete logic
+  //match game notification to users 
+
+  

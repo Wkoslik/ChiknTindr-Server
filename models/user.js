@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema;
 
 const options = {
 	timestamps: true,
@@ -11,43 +12,44 @@ const options = {
 		}
 	}
 }
-const userInstanceSchema = new mongoose.Schema({
+
+//* User instances 
+const userInstanceSchema = new Schema({
 	instance: {
-		type: MONGOOSE.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Instance'
 	},
 	users: [{
-		type: MONGOOSE.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	}],
 	complete: Boolean
 })
 
-// const prefSchema = new mongoose.Schema({
-// 	preferences: Array,
-// 	wantToGo: Array,
-// 	favorites: [{
-// 		name: String,
-// 		yelpId: String, 
-// 		img: String
-// 	}]
-// })
-const userChatSchema = new.mongoose.Schema({
+
+//*  User Favorite
+const userFaveSchema = new Schema({
+	name: String,
+	yelpID: String,
+	imgUrl: String
+});
+
+// TODO: add userChat to user after chat model has been built 
+const userChatSchema = new Schema({
 	chatId: {
-		type: MONGOOSE.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Chat'
 	},
 	name: {type: String, default: "chat"},
 	users: [{
-		type: MONGOOSE.Schema.Types.ObjectId,
+		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	}]
-})
+});
 
 
-// userChat Schema
-
-const userSchema = new mongoose.Schema({
+//* User Schema
+const userSchema = new Schema({
 	name:{
 		type: String,
 		required: true
@@ -61,24 +63,15 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	location: {
-		zip: Number,
-		address: String,
-		city: String,
-	},
+	
 	friendsList: [{
-		type: MONGOOSE.Schema.Types.ObjectId,
-		ref: 'User'
-	}],
+		userId: {type: mongoose.Schema.Types.ObjectId,  ref: 'User' },
+}],
 	userInstances: [userInstanceSchema],
 	preferences:{
-		userPreferences: Array,
+		userPreferences: [string],
 		wantToGo: Array,
-		favorites: [{
-		name: String,
-		yelpId: String, 
-		img: String
-		}]
+		favorites: [userFaveSchema]
 	},
 	chats: [userChatSchema]
 }, options)
