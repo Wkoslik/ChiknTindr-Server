@@ -19,6 +19,7 @@ const userInstanceSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Instance'
 	},
+	name: String,
 	users: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
@@ -70,8 +71,7 @@ const userSchema = new Schema({
 	userInstances: [userInstanceSchema],
 	preferences:{
 		foodPreferences: [String],
-		foodPrice: String,
-		foodRating: String,
+		foodPrice: Number,
 		wantToGo: Array,
 		favorites: [userFaveSchema]
 	},

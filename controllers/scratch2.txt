@@ -1,0 +1,130 @@
+Game Instance created stuff: 
+Allows for Creation of game but not proper push update overrights all data in instances array 
+
+Controller: 
+router.post('/creatematchgame', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    db.User.findOne({ email: req.body.email})
+    .then(user => {
+        // console.log(req.body.email)
+        console.log(user.email)
+        console.log(user._id)
+        console.log(req.user._id)
+        db.MatchGame.create({
+            name: req.body.name,
+            users: [user._id, req.user._id],
+            location: req.body.location,
+            term: req.body.term,
+            dateCreated: Date.now(),
+            completed: false
+        }).then(createdGame => {
+            const gameData = {}
+            db.User.findByIdAndUpdate(
+                {_id: req.user._id}, 
+                {userInstances : [ {
+                        instance: createdGame._id,
+                        name: createdGame.name,
+                        users: [user._id, req.user._id],
+                        complete: false
+                    }
+                ]}).then(user1 => console.log(`User 1: Game pushed to model:\n ${user1}`))
+                
+                console.log(user.id, user.email)
+            db.User.findByIdAndUpdate(
+                {_id: user._id}, 
+                {userInstances : [ {
+                        instance: createdGame._id,
+                        name: createdGame.name,
+                        users: [user._id, req.user._id],
+                        complete: false
+                    }
+            ]}).then(user2 => console.log(`User 2: Game pushed to model:\n ${user2}`))
+            
+            res.status(200).json(createdGame)
+        })
+    })
+})
+
+Insomnia Form: with Bugs (test21) logged in 
+endpoint: POST - localhost:3001/api/creatematchgame
+
+{
+	"name": "pizza with roger",
+	"email" : "test20@test.com",
+	"location": "Brooklyn",
+	"term": "Pizza"
+}
+Response:
+{
+  "users": [
+    "6033bdfa09d66a0755af6bac",
+    "6033c23401c4520813075064"
+  ],
+  "date": "2021-02-22T22:37:28.591Z",
+  "dateCreated": "2021-02-22T22:37:39.674Z",
+  "_id": "603432331dcffa25f41da35b",
+  "name": "pizza with roger",
+  "location": "Brooklyn",
+  "term": "Pizza",
+  "completed": false,
+  "restaurants": [],
+  "createdAt": "2021-02-22T22:37:39.679Z",
+  "updatedAt": "2021-02-22T22:37:39.679Z",
+  "__v": 0
+}
+Console log showing user update:
+
+User 1: Game pushed to model:
+ {
+  preferences: {
+    foodPreferences: [ 'vegan' ],
+    wantToGo: [],
+    foodPrice: 2,
+    favorites: []
+  },
+  _id: 6033c23401c4520813075064,
+  name: 'Bugs Bunny',
+  email: 'test21@test.com',
+  password: '$2b$10$op3wBuI8ws1EL7UHAS4wKOqzrwwgRbWqMy3pLkJ5lCUYiLGfD9.Im',
+  friendsList: [],
+  userInstances: [
+    {
+      users: [Array],
+      _id: 603432331dcffa25f41da35c,
+      instance: 603432331dcffa25f41da35b,
+      name: 'pizza with roger',
+      complete: false
+    }
+  ],
+  chats: [],
+  createdAt: 2021-02-22T14:39:48.243Z,
+  updatedAt: 2021-02-22T22:37:39.728Z,
+  __v: 0
+}
+User 2: Game pushed to model:
+ {
+  preferences: {
+    foodPreferences: [ 'kosher' ],
+    wantToGo: [],
+    foodPrice: 3,
+    favorites: []
+  },
+  _id: 6033bdfa09d66a0755af6bac,
+  name: 'Roger Rabbit',
+  email: 'test20@test.com',
+  password: '$2b$10$ntHzVsp/51H8YSEvoKFrpuh8VtCR1Jagyc9MdzxglY/ElNTmSd0wS',
+  friendsList: [],
+  userInstances: [
+    {
+      users: [Array],
+      _id: 603432331dcffa25f41da35d,
+      instance: 603432331dcffa25f41da35b,
+      name: 'pizza with roger',
+      complete: false
+    }
+  ],
+  chats: [],
+  createdAt: 2021-02-22T14:21:46.195Z,
+  updatedAt: 2021-02-22T22:37:39.729Z,
+  __v: 0
+}
+
