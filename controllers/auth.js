@@ -71,4 +71,25 @@ router.put('/user/', passport.authenticate('jwt', {session: false}), (req, res) 
     })
 })
 
+// userPrefecences
+router.put('/user/preferences', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    db.User.findByIdAndUpdate(req.user._id, {
+        preferences: req.body.preferences
+    })
+    .then(user => {
+        res.status(201).json(user)
+    })
+})
+
+// userSearch
+router.get('/user/search', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    db.User.findOne({ email: req.body.email})
+    .then(user => {
+        res.status(200).json(user.preferences)
+        user.preferences.userPreferences.forEach(pref =>{
+            console.log(pref)
+        })
+    })
+})
+
 module.exports = router;

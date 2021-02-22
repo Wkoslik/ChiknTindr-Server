@@ -17,7 +17,7 @@ app.get('/', (req,res) =>{
 })
 
 //controllers
-app.use('/home', require('./controllers/auth')) 
+app.use('/api', require('./controllers/auth')) 
 
 
 app.listen(process.env.PORT || 3000, () =>{
