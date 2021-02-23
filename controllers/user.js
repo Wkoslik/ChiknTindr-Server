@@ -18,11 +18,17 @@ router.get('/profile', (req, res) => {
 
 })
 //* put req allow user read and update 
-router.get('/preferences', passport.authenticate('jwt', {session: false}), (req, res) =>{
-    res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message'})
+router.put('/preferences', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message'})
+    // console.log(req.user._id)
     console.log(req.user._id)
-    console.log(req.user)
-})
+    db.User.findByIdAndUpdate( req.user._id, {
+        preferences: {foodPreferences: [req.body.dietary],  foodPrice: req.body.price}
+    }).then(user => {
+        console.log(user)
+    res.status(201).json(user)
+    })
+});
     
 
 router.put('/preferences/update', (req, res) =>{
