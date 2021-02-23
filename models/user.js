@@ -71,7 +71,7 @@ const userSchema = new Schema({
 	userInstances: [userInstanceSchema],
 	preferences:{
 		foodPreferences: [String],
-		foodPrice: Number,
+		foodPrice: String,
 		wantToGo: Array,
 		favorites: [userFaveSchema]
 	},
