@@ -1,5 +1,7 @@
 //user.js handles all routes the user will be on with the exception of signup and login which are handled by auth
 //This can be renamed or resorted
+    //TODO: in general user returns from backend have password there middle wear or a hook in the model that can prevent the user from having the hashed password?, Is this not an issue especially since other users can be read?
+
 
 const express = require('express')
 const db = require('../models')
@@ -40,10 +42,12 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
     // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message' })
     // console.log(req.user._id)
     //TODO what happens if the user invited to dinner isn't in our db yet? can we find or create?
+        //TODO: so the user that will be invited technically has to be 
     db.User.findOne({ email: req.body.email })
         .then(user => {
             // console.log(req.body.email)
             // console.log(user.email)
+            if(!user._id) return 
             console.log(user._id)
             console.log(req.user._id)
             db.MatchGame.create({
@@ -63,7 +67,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                             name: createdGame.name,
                             users: [user._id, req.user._id],
                             complete: false
-                        }
+                        },...req.user.userInstances
                         ]
                     }).then(user1 => console.log(`User 1: Game pushed to model:\n ${user1}`))
 
@@ -76,7 +80,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                             name: createdGame.name,
                             users: [user._id, req.user._id],
                             complete: false
-                        }
+                        },...user.userInstances
                         ]
                     }).then(user2 => console.log(`User 2: Game pushed to model:\n ${user2}`))
 
