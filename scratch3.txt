@@ -1,0 +1,68 @@
+connection with client to update route in user Controller
+client route
+//* put req allow user read and update 
+router.put('/preferences', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message'})
+    // console.log(req.user._id)
+    console.log(req.user._id)
+    db.User.findByIdAndUpdate( req.user._id, {
+        preferences: { foodPreferences: [req.body.dietary], foodPrice: req.body.price }
+    }).then(user => {
+        console.log(user)
+    res.status(201).json(user)
+    })
+});
+    
+
+
+## ServerConsole: 
+🔗 connected to db: mernAuth1214
+(node:13106) DeprecationWarning: Listening to events on the Db class has been deprecated and will be removed in the next major version.
+[nodemon] restarting due to changes...
+[nodemon] starting `node server.js`
+(node:13120) Warning: Accessing non-existent property 'MongoError' of module exports inside circular dependency
+(Use `node --trace-warnings ...` to show where the warning was created)
+✅ You are listening to to smooth sounds of Port 3001
+🔗 connected to db: mernAuth1214
+(node:13120) DeprecationWarning: Listening to events on the Db class has been deprecated and will be removed in the next major version.
+60345bfd9c29c632727f9844
+{
+  preferences: { foodPreferences: [ 'vegetarian' ], wantToGo: [], favorites: [] },
+  _id: 60345bfd9c29c632727f9844,
+  name: 'Scooba Steve',
+  email: 'test666@test.com',
+  password: '$2b$10$3J20845SbScsORVRckLG5uvniRJs7CGtJukH0sW1oSqMXXah12/U6',
+  friendsList: [],
+  userInstances: [],
+  chats: [],
+  createdAt: 2021-02-23T01:35:57.261Z,
+  updatedAt: 2021-02-23T01:53:40.887Z,
+  __v: 0
+}
+[nodemon] restarting due to changes...
+[nodemon] starting `node server.js`
+(node:13202) Warning: Accessing non-existent property 'MongoError' of module exports inside circular dependency
+(Use `node --trace-warnings ...` to show where the warning was created)
+✅ You are listening to to smooth sounds of Port 3001
+🔗 connected to db: undefined
+(node:13202) DeprecationWarning: Listening to events on the Db class has been deprecated and will be removed in the next major version.
+60345bfd9c29c632727f9844
+{
+  preferences: {
+    foodPreferences: [ 'kosher' ],
+    wantToGo: [],
+    foodPrice: '3',
+    favorites: []
+  },
+  _id: 60345bfd9c29c632727f9844,
+  name: 'Scooba Steve',
+  email: 'test666@test.com',
+  password: '$2b$10$3J20845SbScsORVRckLG5uvniRJs7CGtJukH0sW1oSqMXXah12/U6',
+  friendsList: [],
+  userInstances: [],
+  chats: [],
+  createdAt: 2021-02-23T01:35:57.261Z,
+  updatedAt: 2021-02-23T01:54:40.339Z,
+  __v: 0
+}
+^C%                                                                                                                                                                      ➜  chikntindr-server git:(main) 

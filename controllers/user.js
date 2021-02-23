@@ -23,7 +23,7 @@ router.put('/preferences', passport.authenticate('jwt', {session: false}), (req,
     // console.log(req.user._id)
     console.log(req.user._id)
     db.User.findByIdAndUpdate( req.user._id, {
-        preferences: { foodPreferences: [req.body.dietary], foodPrice: req.body.price }
+        preferences: {foodPreferences: [req.body.dietary],  foodPrice: req.body.price}
     }).then(user => {
         console.log(user)
     res.status(201).json(user)
