@@ -41,8 +41,8 @@ router.put('/preferences/update', (req, res) => {
 router.post('/invite', passport.authenticate('jwt', { session: false }), (req, res) => {
     // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message' })
     // console.log(req.user._id)
-    //TODO what happens if the user invited to dinner isn't in our db yet? can we find or create?
-        //TODO: so the user that will be invited technically has to be 
+    //TODO: Grab User Preferences and Price preference and store them in the game, update models accordingsly
+    //TODO: Make a check / logic so nonexistant user does not crash the server but just throws an error 
     db.User.findOne({ email: req.body.email })
         .then(user => {
             // console.log(req.body.email)

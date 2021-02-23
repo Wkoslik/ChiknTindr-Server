@@ -9,6 +9,8 @@ const jwt = require('jsonwebtoken')
 //URL prefix - '/api'
 
 
+//TODO: archive and clean up any erroneous code that has move to the user controller
+
 //signup - POST /api/signup
 router.post('/signup', (req, res) => {
     bcrypt.hash(req.body.password, 10) //do 10, 11, or 12
