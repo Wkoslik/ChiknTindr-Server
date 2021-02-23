@@ -13,7 +13,7 @@ app.use(express.json())
 
 //Routes
 app.get('/', (req,res) =>{
-    res.json({message: "MERN app API Home"})
+    res.send("MERN app API Home")
 })
 
 //controllers
