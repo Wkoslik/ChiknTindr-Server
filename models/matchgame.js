@@ -26,7 +26,6 @@ const restSchema = new Schema({
 })
 //* changing instance to matchgame for semantic sense
 // Instance schema
-//TODO: Add dietary and Price preference here to be used for query to Yelp API
 //TODO: refactor for any yelp API Call snags
 const matchGameSchema = new Schema({
   name: String,
@@ -36,6 +35,8 @@ const matchGameSchema = new Schema({
   }],
   location: String,
   term: String,
+  preference: Array,
+  price: Array,
   date: {type: Date, default: Date.now()},
   dateCreated: {type: Date, default: Date.now()},
   restaurants: [restSchema],

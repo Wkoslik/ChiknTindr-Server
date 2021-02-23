@@ -54,21 +54,6 @@ router.get('/private', passport.authenticate('jwt', {session: false}), (req, res
 
 //PUT /api/user
 router.put('/user/', passport.authenticate('jwt', {session: false}), (req, res) =>{
-    // ----------THIS IS THE HARD WAY---------- 
-    //get the token from the reqheaders
-    // console.log(req.headers.authorization)
-    // let token  = req.headers.authorization.split(' ')[1]
-    // console.log(token)
-    //decode the token to get payload details
-    // let decoded = jwt.verify(token, process.env.JWT_SECRET)
-    // console.log(decoded)
-    //update a user based on the id from token and update info from body
-    // db.User.findByIdAndUpdate(decoded.id, {name: req.body.name})
-    // .then(user =>{
-    //     res.status(201).json(user)
-    // })
-    // ----------THIS IS THE EASY WAY---------- 
-
     db.User.findByIdAndUpdate(req.user._id, { name: req.body.name })
     .then(user => {
         res.status(201).json(user)
@@ -139,6 +124,5 @@ router.post('/creatematchgame', passport.authenticate('jwt', {session: false}), 
     })
 })
 
-// Update - from game ref both users for their pref, do logic eval of pref, make query term, axios query to yelp and populate restaurants
 
 module.exports = router;

@@ -39,56 +39,85 @@ router.put('/preferences/update', (req, res) => {
 
 
 router.post('/invite', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message' })
-    // console.log(req.user._id)
-    //TODO: Grab User Preferences and Price preference and store them in the game, update models accordingsly
-    //TODO: Make a check / logic so nonexistant user does not crash the server but just throws an error 
+    
     db.User.findOne({ email: req.body.email })
-        .then(user => {
+        .then(foundUser => {
             // console.log(req.body.email)
             // console.log(user.email)
-            if(!user._id) return 
-            console.log(user._id)
+            if(!foundUser._id) return 
+            console.log(foundUser._id)
             console.log(req.user._id)
             db.MatchGame.create({
                 name: req.body.description,
-                users: [user._id, req.user._id],
+                users: [foundUser._id, req.user._id],
                 location: req.body.location,
                 term: req.body.term,
+                preference: [req.user.preferences.foodPreferences[0], foundUser.preferences.foodPreferences[0]],
+                price: [req.user.preferences.foodPrice, foundUser.preferences.foodPrice],
                 dateCreated: Date.now(),
                 completed: false
             }).then(createdGame => {
-                const gameData = {}
+                // Update User logged in
                 db.User.findByIdAndUpdate(
                     { _id: req.user._id },
                     {
                         userInstances: [{
                             instance: createdGame._id,
                             name: createdGame.name,
-                            users: [user._id, req.user._id],
+                            users: [foundUser._id, req.user._id],
                             complete: false
                         },...req.user.userInstances
                         ]
                     }).then(user1 => console.log(`User 1: Game pushed to model:\n ${user1}`))
-
-                console.log(user.id, user.email)
+                    // update user invited
                 db.User.findByIdAndUpdate(
-                    { _id: user._id },
+                    { _id: foundUser._id },
                     {
                         userInstances: [{
                             instance: createdGame._id,
                             name: createdGame.name,
-                            users: [user._id, req.user._id],
+                            users: [foundUser._id, req.user._id],
                             complete: false
-                        },...user.userInstances
+                        },...foundUser.userInstances
                         ]
                     }).then(user2 => console.log(`User 2: Game pushed to model:\n ${user2}`))
 
                 res.status(200).json(createdGame)
             })
+        }).catch(err => {
+            console.log(`Error no such user! ${err}`)
+            res.status(400).json( {message: "sorry there isnt a user"})
         })
 });
 
+// Testing route for User info
+    // at /user/test
+router.get('/test', passport.authenticate('jwt', { session: false }), (req, res) => { 
+   // Checking in the logged user
+    console.log(`🐙🐙🐙🐙🐙🐙 Signed in User ${req.user}`)
+    console.log(`🚨🚨🚨🚨🚨🚨 signed in user preferences ${req.user.preferences}`)
+
+    // checking the user searched 
+
+    db.User.findOne( {email: req.body.email})
+    .then(userSearched => {
+        console.log(`🥶🥶🥶🥶🥶 searched user ${userSearched}`);
+        console.log(`🧢🧢🧢🧢🧢🧢 searched user preferences ${userSearched.preferences}`);
+        res.status(201).json(userSearched.preferences)
+    })
+})
+
+//test no user solve 
+router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (req, res) => { 
+    db.User.findOne( {email: req.body.email})
+    .then(foundUser => {
+        console.log(foundUser.name)
+        res.status(201).json( {message: "there is a user"})
+    }).catch(err => {
+        console.log(`Error no such user! ${err}`)
+        res.status(400).json( {message: "sorry there isnt a user"})
+    })
+})
 router.get('/:id', (req, res) => {
     //this is for the instance that's created between friends
 })
