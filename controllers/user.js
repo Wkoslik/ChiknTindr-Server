@@ -67,7 +67,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                             name: createdGame.name,
                             users: [user._id, req.user._id],
                             complete: false
-                        }
+                        },...req.user.userInstances
                         ]
                     }).then(user1 => console.log(`User 1: Game pushed to model:\n ${user1}`))
 
@@ -80,7 +80,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                             name: createdGame.name,
                             users: [user._id, req.user._id],
                             complete: false
-                        }
+                        },...user.userInstances
                         ]
                     }).then(user2 => console.log(`User 2: Game pushed to model:\n ${user2}`))
 
