@@ -20,6 +20,8 @@ router.get('/profile', (req, res) => {
 //* put req allow user read and update 
 router.get('/preferences', passport.authenticate('jwt', {session: false}), (req, res) =>{
     res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message'})
+    console.log(req.user._id)
+    console.log(req.user)
 })
     
 
