@@ -18,7 +18,7 @@ app.get('/', (req,res) =>{
 
 //controllers
 app.use('/api', require('./controllers/auth')) 
-
+app.use('/user', require('./controllers/user'))
 
 app.listen(process.env.PORT || 3000, () =>{
     console.log(`✅ You are listening to to smooth sounds of Port ${process.env.PORT || 3000}`)
