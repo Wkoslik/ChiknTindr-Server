@@ -25,7 +25,7 @@ const userInstanceSchema = new Schema({
 		ref: 'User'
 	}],
 	complete: Boolean
-})
+}, {timestamps: true})
 
 
 //*  User Favorite
