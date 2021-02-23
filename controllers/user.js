@@ -39,14 +39,15 @@ router.put('/preferences/update', (req, res) => {
 router.post('/invite', passport.authenticate('jwt', { session: false }), (req, res) => {
     // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message' })
     // console.log(req.user._id)
+    //TODO what happens if the user invited to dinner isn't in our db yet? can we find or create?
     db.User.findOne({ email: req.body.email })
         .then(user => {
             // console.log(req.body.email)
-            console.log(user.email)
+            // console.log(user.email)
             console.log(user._id)
             console.log(req.user._id)
             db.MatchGame.create({
-                name: req.body.name,
+                name: req.body.description,
                 users: [user._id, req.user._id],
                 location: req.body.location,
                 term: req.body.term,
