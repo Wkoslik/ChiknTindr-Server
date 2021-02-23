@@ -39,9 +39,7 @@ router.put('/preferences/update', (req, res) => {
 
 
 router.post('/invite', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message' })
-    // console.log(req.user._id)
-    //TODO: Make a check / logic so nonexistant user does not crash the server but just throws an error 
+    
     db.User.findOne({ email: req.body.email })
         .then(foundUser => {
             // console.log(req.body.email)
