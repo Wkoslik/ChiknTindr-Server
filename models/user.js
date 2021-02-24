@@ -66,7 +66,8 @@ const userSchema = new Schema({
 	},
 	
 	friendsList: [{
-		userId: {type: mongoose.Schema.Types.ObjectId,  ref: 'User' },
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User' 
 }],
 	userInstances: [userInstanceSchema],
 	preferences:{

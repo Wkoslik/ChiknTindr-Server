@@ -135,18 +135,19 @@ router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (re
     
     //TODO: Friends List testing
     //get a user by email
-    router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => { 
+    router.get('/search', passport.authenticate('jwt', { session: false }), (req, res) => { 
         db.User.findOne({ email: req.body.email })
         .then(foundUser =>{
             console.log(foundUser)
-            resizeTo.status(201).json(foundUser)
+            res.status(201).json(foundUser)
         })
     })
     
     // add a friend route
-    router.patch('/user/addfriend',  passport.authenticate('jwt', { session: false }), (req, res) => {
+    router.patch('/addfriend',  passport.authenticate('jwt', { session: false }), (req, res) => {
         db.User.findOne({_id: req.user._id})
         .then(mainUser =>{
+            console.log(req.body._id)
             mainUser.friendsList.push(req.body._id)
             mainUser.save()
             console.log('friendship success 🍑 🍑 🍑 🍑 🍑 🍑')
@@ -154,5 +155,14 @@ router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (re
         })
 })
 // display friends route and populate 
+
+    router.get('/friendslist', passport.authenticate('jwt', { session: false }), (req, res) => {
+        db.User.findOne({_id: req.user._id})
+            .populate('friendsList').exec((err, userFriends) =>{
+                console.log(userFriends);
+                res.status(201).json(userFriends);
+            })
+        })
+
 
 module.exports = router;
