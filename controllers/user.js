@@ -115,17 +115,29 @@ router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (re
 
 
 // router.get('/:id', (req, res) => {
+
+//     //this is for the instance that's created between friends
+// })
+
+router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log("YOU HIT THE BACKEND 🍑🍑🍑🍑🍑🍑🍑🍑🍑🍑")
+    // console.log(req.user._id, ' ⭐️⭐️⭐️⭐️⭐️⭐️')
+    db.User.findById(req.user)
+    .then(response =>{
+        res.send(response)
+    })
+    //res.status.json
+    //send user found user.userinstances
+})
+
+//TODO Remove this route, this is just to test the front end hitting the backend
+
+router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log('YOU HIT THE BACKEND')
+}
     //     //this is for the instance that's created between friends
     // })
-    
-    router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
-        console.log("YOU HIT THE BACKEND 🍑🍑🍑🍑🍑🍑🍑🍑🍑🍑")
-        // res.status(201).json({ message: 'YOU HAVE HIT THE BACKEND ⭐️' })
-        console.log(req.user, ' ')
-        // db.User.findById(req.user.id._id)
-        //res.status.json
-        //send user found user.userinstances
-    })
+  
     
     //TODO Remove this route, this is just to test the front end hitting the backend
     
