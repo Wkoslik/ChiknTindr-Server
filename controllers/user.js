@@ -53,6 +53,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                 completed: false
             }).then(createdGame => {
                 // Update User logged in
+                //TODO: Add a help function / method to use array include javascript method to determine if a user already has invitee as a friend then do nothing if not add to friend array
                 db.User.findByIdAndUpdate(
                     { _id: req.user._id },
                     {
@@ -156,7 +157,7 @@ router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (r
             res.status(201).json(foundUser)
         })
     })
-    
+    //TODO: Add same helper function here to check array.includes boolean to determine whether or not it actually adds a friend or not if the friend already exists
     // add a friend route
     router.patch('/addfriend',  passport.authenticate('jwt', { session: false }), (req, res) => {
         db.User.findOne({_id: req.user._id})
@@ -173,10 +174,19 @@ router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (r
     router.get('/friendslist', passport.authenticate('jwt', { session: false }), (req, res) => {
         db.User.findOne({_id: req.user._id})
             .populate('friendsList').exec((err, userFriends) =>{
+                let friendListArray = [];
+
                 console.log(userFriends);
-                //TODO: Helper function for each pair down this data
+                userFriends.friendsList.forEach(friend =>{
+                    let friendObj = {
+                        name: friend.name,
+                        email: friend.email
+                    }
+                    friendListArray = [friendObj, ...friendListArray]
+                })
+                console.log(friendListArray);
                     //for each loop make a new object to send
-                res.status(201).json(userFriends);
+                res.status(201).json({ friendslist: friendListArray });
             })
         })
 
