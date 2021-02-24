@@ -29,18 +29,18 @@
   Test notes: 
 
 
-  Stand up notes:
+ Stand up notes:
 
   Back end -
   Status:
-  - Version one logic figured out models all all written 
+  - Version one logic figured out models all written
   - Yelp API working nicely and information architecture seems clean and organized
   - Building voting/swiping routes today
 
-  Currently working on - 
+  Currently working on -
   - Building routes for the game
   - logic testing
-  - friends list implentation 
-  -  writing helper functions for paring down data for populate calls 
+  - friends list implementation
+  -  writing helper functions for paring down data for populate calls
 
-  Help needed: seems to be fine, will know if problems and bugs come up while implementing things today. 
+  Help needed: seems to be fine, will know if problems and bugs come up while implementing things today.
