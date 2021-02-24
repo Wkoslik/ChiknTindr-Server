@@ -51,7 +51,13 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
         { 
           name: eatz.name,
           yelpId: eatz.id,
-          imageUrl: eatz.image_url
+          imageUrl: eatz.image_url,
+          number: eatz.display_phone,
+          categories: eatz.categories,
+          yelpUrl: eatz.url,
+          price: eatz.price,
+          location: eatz.location
+
 
         }
       )
