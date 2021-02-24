@@ -87,7 +87,22 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
   })
 }) 
 
+//TODO: Restaurants for display and like action 
+  // Client pulls game instance using req.params.id 
+  //? /game/restuarants/:id
+  router.get('/restaurants/:id', passport.authenticate('jwt', { session: false }),(req,res) => {
+    db.MatchGame.findById(req.params.id)
+    .then(game => {
+      console.log(game)
+      res.status(201).json(game)
+    })
+  })
+
 //TODO: Route for like/dislike
+  //! MUST TRACK FROM CLIENT END 
+    //!  req.body: 
+      //! game id,  current restaurant (id), email through req user
+        //! AND BOOLEAN from button (true / false)
   //Update each restaurant:
     /*
       liked array - push boolean update ever vote
