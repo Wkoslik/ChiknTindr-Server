@@ -12,6 +12,7 @@ const axios = require('axios');
   // Displaying a particular instance
 
   // GET and PATCH request to read the game instance and make a search
+  //TODO: ensure theres at least a restaurant found, return and error to the user that is specific to searching for something less specific etc....
 router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, res) => {
   console.log('HIT START ROUTE 🦄🦄🦄🦄🦄')
   db.MatchGame.findOne({_id: req.body._id})
@@ -85,12 +86,21 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
     res.status(201).json(foundGame)
   })
 }) 
-module.exports = router;
-  // Showing all the restaurant data
 
-  // refactoring logic for data / game state logic
+//TODO: Route for like/dislike
+  //Update each restaurant:
+    /*
+      liked array - push boolean update ever vote
+      creator voted -boolean - update corresponding vote
+      player voted -boolean - update corresponding vote 
+      complete - boolean if both users have liked
+     */
+  //TODO: Nested logic for moving to results 
+    // grab matches, switch on user lists, update matchgame model
+    
 
-  //Writing selections from front end 
+
+  module.exports = router;
 
 //Planning any middlewear
   //TODO: Write non REST logic functions

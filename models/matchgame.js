@@ -18,7 +18,15 @@ const restSchema = new Schema({
   location: Array, //can get display address or combo address details
   match: {
     liked: Array,
-    match: {
+    complete: {
+      type: Boolean,
+      default: false
+    }, 
+    creatorVoted: {
+      type: Boolean,
+      default: false
+    }, 
+    playerVoted: {
       type: Boolean,
       default: false
     } 
@@ -27,12 +35,25 @@ const restSchema = new Schema({
 //* changing instance to matchgame for semantic sense
 // Instance schema
 //TODO: refactor for any yelp API Call snags
+  //TODO: Add a total restaurants
 const matchGameSchema = new Schema({
   name: String,
   users: [{
     type: MONGOOSE.Schema.Types.ObjectId,
     ref: 'User'
   }],
+  creator: String,
+  player: String,
+  creatorArr: Array,
+  playerArr: Array,
+  creatorFinished: {
+    type: Boolean,
+    default: false
+  },
+  playerFinished: {
+    type: Boolean,
+    default: false
+  },
   location: String,
   term: String,
   preference: Array,
