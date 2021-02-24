@@ -13,6 +13,7 @@ const axios = require('axios');
 
   // GET and PATCH request to read the game instance and make a search
 router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, res) => {
+  console.log('HIT START ROUTE 🦄🦄🦄🦄🦄')
   db.MatchGame.findOne({_id: req.body._id})
   .then( foundGame => {
     console.log(foundGame)
