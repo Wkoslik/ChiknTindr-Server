@@ -123,8 +123,6 @@ router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (re
 // })
 
 router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log("YOU HIT THE BACKEND 🍑🍑🍑🍑🍑🍑🍑🍑🍑🍑")
-    // console.log(req.user._id, ' ⭐️⭐️⭐️⭐️⭐️⭐️')
     db.User.findById(req.user)
     .then(response =>{
         res.send(response)
