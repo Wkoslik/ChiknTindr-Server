@@ -100,20 +100,22 @@ router.get('/test', passport.authenticate('jwt', { session: false }), (req, res)
         })
 })
 
+
 //test no user solve 
 router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.User.findOne({ email: req.body.email })
-        .then(foundUser => {
-            console.log(foundUser.name)
-            res.status(201).json({ message: "there is a user" })
-        }).catch(err => {
-            console.log(`Error no such user! ${err}`)
-            res.status(400).json({ message: "sorry there isnt a user" })
-        })
+    .then(foundUser => {
+        console.log(foundUser.name)
+        res.status(201).json({ message: "there is a user" })
+    }).catch(err => {
+        console.log(`Error no such user! ${err}`)
+        res.status(400).json({ message: "sorry there isnt a user" })
+    })
 })
 
 
 // router.get('/:id', (req, res) => {
+
 //     //this is for the instance that's created between friends
 // })
 
@@ -132,8 +134,47 @@ router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res
 
 router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log('YOU HIT THE BACKEND')
+}
+    //     //this is for the instance that's created between friends
+    // })
+  
+    
+    //TODO Remove this route, this is just to test the front end hitting the backend
+    
+    router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
+        console.log('YOU HIT THE BACKEND')
+    })
+    
+    //TODO: Friends List testing
+    //get a user by email
+    router.get('/search', passport.authenticate('jwt', { session: false }), (req, res) => { 
+        db.User.findOne({ email: req.body.email })
+        .then(foundUser =>{
+            console.log(foundUser)
+            res.status(201).json(foundUser)
+        })
+    })
+    
+    // add a friend route
+    router.patch('/addfriend',  passport.authenticate('jwt', { session: false }), (req, res) => {
+        db.User.findOne({_id: req.user._id})
+        .then(mainUser =>{
+            console.log(req.body._id)
+            mainUser.friendsList.push(req.body._id)
+            mainUser.save()
+            console.log('friendship success 🍑 🍑 🍑 🍑 🍑 🍑')
+            res.status(201).json(mainUser);
+        })
 })
+// display friends route and populate 
 
+    router.get('/friendslist', passport.authenticate('jwt', { session: false }), (req, res) => {
+        db.User.findOne({_id: req.user._id})
+            .populate('friendsList').exec((err, userFriends) =>{
+                console.log(userFriends);
+                res.status(201).json(userFriends);
+            })
+        })
 
 
 module.exports = router;
