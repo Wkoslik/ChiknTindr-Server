@@ -34,7 +34,7 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
     //     //base Yelp url:
       const yelpBaseUrl = 'https://api.yelp.com/v3/businesses/search';
   
-      const axiosURL = `${yelpBaseUrl}?location=${foundGame.location}&term=${foundGame.term},${gamePref}&price=1,2` //TODO: Fix price here
+      const axiosURL = `${yelpBaseUrl}?location=${foundGame.location}&term=${foundGame.term},${gamePref}&price=1,2&limit=10` //TODO: Fix price here
 
     
 
