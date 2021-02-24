@@ -25,3 +25,5 @@
   ### player finished Boolean
 
   ## restGameComplete Boolean - determines if restaurant has been voted by both users, if they have true, default false
+
+  Test notes: 
