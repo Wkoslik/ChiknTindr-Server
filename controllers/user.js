@@ -1,6 +1,6 @@
 //user.js handles all routes the user will be on with the exception of signup and login which are handled by auth
 //This can be renamed or resorted
-    //TODO: in general user returns from backend have password there middle wear or a hook in the model that can prevent the user from having the hashed password?, Is this not an issue especially since other users can be read?
+//TODO: in general user returns from backend have password there middle wear or a hook in the model that can prevent the user from having the hashed password?, Is this not an issue especially since other users can be read?
 
 
 const express = require('express')
@@ -37,7 +37,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
         .then(foundUser => {
             // console.log(req.body.email)
             // console.log(user.email)
-            if(!foundUser._id) return 
+            if (!foundUser._id) return
             console.log(foundUser._id)
             console.log(req.user._id)
             db.MatchGame.create({
@@ -59,10 +59,10 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                             name: createdGame.name,
                             users: [foundUser._id, req.user._id],
                             complete: false
-                        },...req.user.userInstances
+                        }, ...req.user.userInstances
                         ]
                     }).then(user1 => console.log(`User 1: Game pushed to model:\n ${user1}`))
-                    // update user invited
+                // update user invited
                 db.User.findByIdAndUpdate(
                     { _id: foundUser._id },
                     {
@@ -71,7 +71,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                             name: createdGame.name,
                             users: [foundUser._id, req.user._id],
                             complete: false
-                        },...foundUser.userInstances
+                        }, ...foundUser.userInstances
                         ]
                     }).then(user2 => console.log(`User 2: Game pushed to model:\n ${user2}`))
                     console.log(createdGame)
@@ -79,42 +79,59 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
             })
         }).catch(err => {
             console.log(`Error no such user! ${err}`)
-            res.status(400).json( {message: "sorry there isnt a user"})
+            res.status(400).json({ message: "sorry there isnt a user" })
         })
 });
 
 // Testing route for User info
-    // at /user/test
-router.get('/test', passport.authenticate('jwt', { session: false }), (req, res) => { 
-   // Checking in the logged user
+// at /user/test
+router.get('/test', passport.authenticate('jwt', { session: false }), (req, res) => {
+    // Checking in the logged user
     console.log(`🐙🐙🐙🐙🐙🐙 Signed in User ${req.user}`)
     console.log(`🚨🚨🚨🚨🚨🚨 signed in user preferences ${req.user.preferences}`)
 
     // checking the user searched 
 
-    db.User.findOne( {email: req.body.email})
-    .then(userSearched => {
-        console.log(`🥶🥶🥶🥶🥶 searched user ${userSearched}`);
-        console.log(`🧢🧢🧢🧢🧢🧢 searched user preferences ${userSearched.preferences}`);
-        res.status(201).json(userSearched.preferences)
-    })
+    db.User.findOne({ email: req.body.email })
+        .then(userSearched => {
+            console.log(`🥶🥶🥶🥶🥶 searched user ${userSearched}`);
+            console.log(`🧢🧢🧢🧢🧢🧢 searched user preferences ${userSearched.preferences}`);
+            res.status(201).json(userSearched.preferences)
+        })
 })
 
 //test no user solve 
-router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (req, res) => { 
-    db.User.findOne( {email: req.body.email})
-    .then(foundUser => {
-        console.log(foundUser.name)
-        res.status(201).json( {message: "there is a user"})
-    }).catch(err => {
-        console.log(`Error no such user! ${err}`)
-        res.status(400).json( {message: "sorry there isnt a user"})
-    })
+router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (req, res) => {
+    db.User.findOne({ email: req.body.email })
+        .then(foundUser => {
+            console.log(foundUser.name)
+            res.status(201).json({ message: "there is a user" })
+        }).catch(err => {
+            console.log(`Error no such user! ${err}`)
+            res.status(400).json({ message: "sorry there isnt a user" })
+        })
 })
 
 
-router.get('/:id', (req, res) => {
-    //this is for the instance that's created between friends
+// router.get('/:id', (req, res) => {
+//     //this is for the instance that's created between friends
+// })
+
+router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log("YOU HIT THE BACKEND 🍑🍑🍑🍑🍑🍑🍑🍑🍑🍑")
+    // res.status(201).json({ message: 'YOU HAVE HIT THE BACKEND ⭐️' })
+    console.log(req.user, ' ')
+    // db.User.findById(req.user.id._id)
+    //res.status.json
+    //send user found user.userinstances
 })
+
+//TODO Remove this route, this is just to test the front end hitting the backend
+
+router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
+    console.log('YOU HIT THE BACKEND')
+})
+
+
 
 module.exports = router;
