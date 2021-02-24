@@ -44,7 +44,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                 name: req.body.description,
                 users: [foundUser._id, req.user._id],
                 location: req.body.location,
-                term: req.body.term,
+                term: req.body.categoryInput,
                 preference: [req.user.preferences.foodPreferences[0], foundUser.preferences.foodPreferences[0]],
                 price: [req.user.preferences.foodPrice, foundUser.preferences.foodPrice],
                 dateCreated: Date.now(),
@@ -74,7 +74,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                         },...foundUser.userInstances
                         ]
                     }).then(user2 => console.log(`User 2: Game pushed to model:\n ${user2}`))
-
+                    console.log(createdGame)
                 res.status(200).json(createdGame)
             })
         }).catch(err => {

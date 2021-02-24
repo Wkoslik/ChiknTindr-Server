@@ -53,5 +53,14 @@ router.get('/private', passport.authenticate('jwt', {session: false}), (req, res
 })
 
 
+//PUT /api/user
+router.put('/user/', passport.authenticate('jwt', {session: false}), (req, res) =>{
+    db.User.findByIdAndUpdate(req.user._id, { name: req.body.name })
+    .then(user => {
+        res.status(201).json(user)
+    })
+})
+
+
 
 module.exports = router;
