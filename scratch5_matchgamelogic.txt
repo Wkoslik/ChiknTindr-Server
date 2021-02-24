@@ -1,0 +1,46 @@
+# Big game logic and outer game model
+
+## Add logic to each game of a creator and player 2 where:
+  ### Each is a string, updated according to req.user.email and second user email to creator and player2 respectively. These can be used for later checks on things and the ultimate array answer logic
+
+  ## Creator and Player finished - Boolean default false - updated when corresponding user has finished all ten restaurant voting
+
+## Creator and Player selection array
+  If we can ensure the restaurants correspond to their ids we can push a true / false boolean to an array for each player. the check for a match occurs when both players have finished and the arrays are populated. 
+  ON A LIKE - push true
+  ON A DISLIKE - push false
+  Then a check can be ran comparing each of the indexes for if both match
+
+  a backup array can push the restaurant name to ensure this is working properly and we dont have disorganized data connections
+
+
+# in each rest sub model 
+
+## match game meta object
+  ### liked array push booleans -Non user specific, but can help with results logic and completion logic
+    true if LIKE
+    false if DISLIKE
+    
+  ### creatorFinished Boolean
+  ### player finished Boolean
+
+  ## restGameComplete Boolean - determines if restaurant has been voted by both users, if they have true, default false
+
+  Test notes: 
+
+
+  Stand up notes:
+
+  Back end -
+  Status:
+  - Version one logic figured out models all all written 
+  - Yelp API working nicely and information architecture seems clean and organized
+  - Building voting/swiping routes today
+
+  Currently working on - 
+  - Building routes for the game
+  - logic testing
+  - friends list implentation 
+  -  writing helper functions for paring down data for populate calls 
+
+  Help needed: seems to be fine, will know if problems and bugs come up while implementing things today. 

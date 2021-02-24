@@ -31,7 +31,8 @@ router.put('/preferences', passport.authenticate('jwt', { session: false }), (re
         res.status(201).json(user)
     })
 });
-
+    //TODO: add to and update matchgame create according to new model logic info
+    //TODO: TODO check user instance and any front end based update to the user model instance stuff whitney added
 router.post('/invite', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.User.findOne({ email: req.body.email })
         .then(foundUser => {
