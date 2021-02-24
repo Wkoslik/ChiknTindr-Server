@@ -135,7 +135,7 @@ router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res
 
 router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log('YOU HIT THE BACKEND')
-}
+})
     //     //this is for the instance that's created between friends
     // })
   
@@ -173,6 +173,8 @@ router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (r
         db.User.findOne({_id: req.user._id})
             .populate('friendsList').exec((err, userFriends) =>{
                 console.log(userFriends);
+                //TODO: Helper function for each pair down this data
+                    //for each loop make a new object to send
                 res.status(201).json(userFriends);
             })
         })
