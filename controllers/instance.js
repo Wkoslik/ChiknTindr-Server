@@ -60,17 +60,18 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
 
 
         }
-      )
-      // foundGame.save();
+        )
+      })
+      foundGame.save();
       // console.log(foundGame);
-    }).then(updatedGame => {
-      console.log(updatedGame)
-      res.status(201).json(updatedGame)
-    })
       // res.status(201).json(response)
       // res.send(response.data.businesses)
     })
-
+    .then(updatedGame => {
+      console.log(updatedGame)
+      res.status(201).json(updatedGame)
+    })
+    
     //* Match results and do a database write for restaurants */
     // res.status(200).json(foundGame)
 
