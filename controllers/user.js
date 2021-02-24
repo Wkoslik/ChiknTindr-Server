@@ -100,38 +100,59 @@ router.get('/test', passport.authenticate('jwt', { session: false }), (req, res)
         })
 })
 
+
 //test no user solve 
 router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.User.findOne({ email: req.body.email })
-        .then(foundUser => {
-            console.log(foundUser.name)
-            res.status(201).json({ message: "there is a user" })
-        }).catch(err => {
-            console.log(`Error no such user! ${err}`)
-            res.status(400).json({ message: "sorry there isnt a user" })
-        })
+    .then(foundUser => {
+        console.log(foundUser.name)
+        res.status(201).json({ message: "there is a user" })
+    }).catch(err => {
+        console.log(`Error no such user! ${err}`)
+        res.status(400).json({ message: "sorry there isnt a user" })
+    })
 })
 
 
 // router.get('/:id', (req, res) => {
-//     //this is for the instance that's created between friends
-// })
-
-router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log("YOU HIT THE BACKEND 🍑🍑🍑🍑🍑🍑🍑🍑🍑🍑")
-    // res.status(201).json({ message: 'YOU HAVE HIT THE BACKEND ⭐️' })
-    console.log(req.user, ' ')
-    // db.User.findById(req.user.id._id)
-    //res.status.json
-    //send user found user.userinstances
+    //     //this is for the instance that's created between friends
+    // })
+    
+    router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
+        console.log("YOU HIT THE BACKEND 🍑🍑🍑🍑🍑🍑🍑🍑🍑🍑")
+        // res.status(201).json({ message: 'YOU HAVE HIT THE BACKEND ⭐️' })
+        console.log(req.user, ' ')
+        // db.User.findById(req.user.id._id)
+        //res.status.json
+        //send user found user.userinstances
+    })
+    
+    //TODO Remove this route, this is just to test the front end hitting the backend
+    
+    router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
+        console.log('YOU HIT THE BACKEND')
+    })
+    
+    //TODO: Friends List testing
+    //get a user by email
+    router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => { 
+        db.User.findOne({ email: req.body.email })
+        .then(foundUser =>{
+            console.log(foundUser)
+            resizeTo.status(201).json(foundUser)
+        })
+    })
+    
+    // add a friend route
+    router.patch('/user/addfriend',  passport.authenticate('jwt', { session: false }), (req, res) => {
+        db.User.findOne({_id: req.user._id})
+        .then(mainUser =>{
+            mainUser.friendsList.push(req.body._id)
+            mainUser.save()
+            console.log('friendship success 🍑 🍑 🍑 🍑 🍑 🍑')
+            res.status(201).json(mainUser);
+        })
 })
-
-//TODO Remove this route, this is just to test the front end hitting the backend
-
-router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log('YOU HIT THE BACKEND')
-})
-
-
+// display friends route and populate 
 
 module.exports = router;
