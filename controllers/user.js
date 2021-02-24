@@ -23,7 +23,7 @@ router.get('/profile', (req, res) => {
 router.put('/preferences', passport.authenticate('jwt', { session: false }), (req, res) => {
     // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message'})
     // console.log(req.user._id)
-    console.log(req.user._id)
+    // console.log(req.user._id)
     db.User.findByIdAndUpdate(req.user._id, {
         preferences: { foodPreferences: [req.body.dietary], foodPrice: req.body.price }
     }).then(user => {
@@ -32,14 +32,7 @@ router.put('/preferences', passport.authenticate('jwt', { session: false }), (re
     })
 });
 
-
-router.put('/preferences/update', (req, res) => {
-    //will accept form data and update the database 
-})
-
-
 router.post('/invite', passport.authenticate('jwt', { session: false }), (req, res) => {
-    
     db.User.findOne({ email: req.body.email })
         .then(foundUser => {
             // console.log(req.body.email)
@@ -118,6 +111,8 @@ router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (re
         res.status(400).json( {message: "sorry there isnt a user"})
     })
 })
+
+
 router.get('/:id', (req, res) => {
     //this is for the instance that's created between friends
 })

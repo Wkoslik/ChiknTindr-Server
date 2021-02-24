@@ -52,6 +52,7 @@ router.get('/private', passport.authenticate('jwt', {session: false}), (req, res
     res.status(200).json({ message: 'Thou hast been granted permission to access this message'})
 })
 
+
 //PUT /api/user
 router.put('/user/', passport.authenticate('jwt', {session: false}), (req, res) =>{
     db.User.findByIdAndUpdate(req.user._id, { name: req.body.name })
@@ -59,7 +60,6 @@ router.put('/user/', passport.authenticate('jwt', {session: false}), (req, res) 
         res.status(201).json(user)
     })
 })
-
 
 
 
