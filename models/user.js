@@ -24,7 +24,11 @@ const userInstanceSchema = new Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'
 	}],
-	complete: Boolean
+	complete: Boolean,
+	started: {
+		type: Boolean,
+		default: false
+	}
 }, {timestamps: true})
 
 

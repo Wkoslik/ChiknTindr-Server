@@ -119,9 +119,11 @@ router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (re
 
 router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log("YOU HIT THE BACKEND 🍑🍑🍑🍑🍑🍑🍑🍑🍑🍑")
-    // res.status(201).json({ message: 'YOU HAVE HIT THE BACKEND ⭐️' })
-    console.log(req.user, ' ')
-    // db.User.findById(req.user.id._id)
+    // console.log(req.user._id, ' ⭐️⭐️⭐️⭐️⭐️⭐️')
+    db.User.findById(req.user)
+    .then(response =>{
+        res.send(response)
+    })
     //res.status.json
     //send user found user.userinstances
 })
