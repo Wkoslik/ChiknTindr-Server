@@ -21,19 +21,8 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
     console.log(foundGame)
     //* Data Returned from Game */
     //* Handle information that comes back and parse into query term 
-    db.User.findOne({_id: req.user._id})
-    .then(user =>{
-      
-      const subDoc = user.userInstances.id(req.body.objectId)
-      subDoc.started = true;
-      user.save()
-      console.log(`🧢`)
-      console.log(user)
-      console.log(`🐙`)
-      console.log(subDoc)
-      
-      
-    })
+    if (foundGame.started === false){
+      foundGame.started = true;
     // foundGame.preference = array of the preferences as strings must combine them
       const gamePref = foundGame.preference.join();
       console.log(gamePref);
@@ -43,8 +32,6 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
         console.log(`attempt at minimum user price ${minPrice}`)
     //     //TODO: For now use "1,2" in search always until logic can be updated
     //   //*Build the query term 
-    //     //base Yelp url:
-    // 
       const yelpBaseUrl = 'https://api.yelp.com/v3/businesses/search';
   
       const axiosURL = `${yelpBaseUrl}?location=${foundGame.location}&term=${foundGame.term},${gamePref}&price=1,2&limit=5` //TODO: Fix price here
@@ -82,7 +69,9 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
       // res.status(201).json(response)
       // res.send(response.data.businesses)
     })
-
+  } else {
+    res.status(201).json(foundGame)
+  }
   })
     
     
@@ -114,8 +103,7 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
 
 
 
-  //TODO: check if match vote and if match change game completed boolean, update both users instances completed boolean update results object in game
-  // TODO: use user instance completed boolean true and game completed boolean to redirect on restaurants to results
+
   router.patch('/gameVote',  passport.authenticate('jwt', { session: false }), (req, res) => {
     db.MatchGame.findOne( {_id : req.body.instanceId } )
       .then(game =>{
@@ -130,16 +118,18 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
             for(i=0; i < game.creatorArr.length; i++) {
               if(game.creatorArr[i] === game.playerArr[i]){
                 game.completed = true;
-                game.result.name = game.restaurants[i].name;
                 game.result.yelpID = game.restaurants[i].yelpID;
+                game.result.name = game.restaurants[i].name;
+                
               }
             };
           } else {
             for(i=0; i < game.creatorArr.length; i++) {
               if(game.creatorArr[i] === game.playerArr[i]){
                 game.completed = true;
-                game.result.name = game.restaurants[i].name;
                 game.result.yelpID = game.restaurants[i].yelpID;
+                game.result.name = game.restaurants[i].name;
+                
               }
             };
           }
@@ -159,6 +149,7 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
                 game.completed = true;
                 game.result.name = game.restaurants[i].name;
                 game.result.yelpID = game.restaurants[i].yelpID;
+                
               }
             };
           } else {
@@ -167,6 +158,7 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
                 game.completed = true;
                 game.result.name = game.restaurants[i].name;
                 game.result.yelpID = game.restaurants[i].yelpID;
+                
               }
             };
           }
@@ -186,7 +178,7 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
     // grab matches, switch on user lists, update matchgame model
     
 
-
+ 
   module.exports = router;
 
 //Planning any middlewear
