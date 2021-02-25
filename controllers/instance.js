@@ -50,7 +50,7 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
       foundGame.restaurants.push(
         { 
           name: eatz.name,
-          yelpId: eatz.id,
+          yelpNum: eatz.id,
           imageUrl: eatz.image_url,
           number: eatz.display_phone,
           categories: eatz.categories,
@@ -118,7 +118,7 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
             for(i=0; i < game.creatorArr.length; i++) {
               if(game.creatorArr[i] === game.playerArr[i]){
                 game.completed = true;
-                game.result.yelpID = game.restaurants[i].yelpID;
+                game.result.yelpAPI = game.restaurants[i].yelpNum;
                 game.result.name = game.restaurants[i].name;
                 
               }
@@ -127,7 +127,7 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
             for(i=0; i < game.creatorArr.length; i++) {
               if(game.creatorArr[i] === game.playerArr[i]){
                 game.completed = true;
-                game.result.yelpID = game.restaurants[i].yelpID;
+                game.result.yelpAPI = game.restaurants[i].yelpNum;
                 game.result.name = game.restaurants[i].name;
                 
               }
@@ -147,8 +147,8 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
             for(i=0; i < game.playerArr.length; i++) {
               if(game.playerArr[i] === game.creatorArr[i]){
                 game.completed = true;
+                game.result.yelpAPI = game.restaurants[i].yelpNum;
                 game.result.name = game.restaurants[i].name;
-                game.result.yelpID = game.restaurants[i].yelpID;
                 
               }
             };
@@ -156,8 +156,8 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
             for(i=0; i < game.playerArr.length; i++) {
               if(game.playerArr[i] === game.creatorArr[i]){
                 game.completed = true;
+                game.result.yelpAPI = game.restaurants[i].yelpNum;
                 game.result.name = game.restaurants[i].name;
-                game.result.yelpID = game.restaurants[i].yelpID;
                 
               }
             };
