@@ -15,13 +15,26 @@ const axios = require('axios');
   //TODO: ensure theres at least a restaurant found, return and error to the user that is specific to searching for something less specific etc....
 router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, res) => {
   console.log('HIT START ROUTE 🦄🦄🦄🦄🦄')
+  console.log(req.body.objectId)
   db.MatchGame.findOne({_id: req.body._id})
   .then( foundGame => {
     console.log(foundGame)
     //* Data Returned from Game */
     //* Handle information that comes back and parse into query term 
     // foundGame.preference = array of the preferences as strings must combine them
-      
+      db.User.findOne({_id: req.user._id})
+        .then(user =>{
+          
+          const subDoc = user.userInstances.id(req.body.objectId)
+          subDoc.started = true;
+          user.save()
+          console.log(`🚨🚨🚨🚨🚨🚨🚨🚨`)
+          console.log(user)
+          console.log(`🍑🍑🍑🍑🍑🍑`)
+          console.log(subDoc)
+
+            })
+        })
       const gamePref = foundGame.preference.join();
       console.log(gamePref);
       // price array of prices as strings
@@ -77,7 +90,7 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
     // res.status(200).json(foundGame)
 
   })
-})
+
 //get detail for one game 
 router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, res) => {
   db.MatchGame.findOne({_id: req.body._id})
@@ -103,6 +116,17 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
     //!  req.body: 
       //! game id,  current restaurant (id), email through req user
         //! AND BOOLEAN from button (true / false)
+  router.patch('/gameVote',  passport.authenticate('jwt', { session: false }), (req, res) => {
+    db.MatchGame.findOne( {_id : req.body.instanceId } )
+      .then(game =>{
+        if (game.creator = req.user.email){
+
+        }
+        if (game.player = req.user.email){
+
+        }
+      })
+  })
   //Update each restaurant:
     /*
       liked array - push boolean update ever vote
