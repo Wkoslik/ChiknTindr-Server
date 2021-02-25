@@ -62,6 +62,10 @@ const matchGameSchema = new Schema({
   dateCreated: {type: Date, default: Date.now()},
   restaurants: [restSchema],
   completed: Boolean,
+  started: {
+    type: Boolean,
+    default: false
+  },
   result: {
     name: String,
     yelpID: String
