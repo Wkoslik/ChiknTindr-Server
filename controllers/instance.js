@@ -15,7 +15,7 @@ const axios = require('axios');
   //TODO: ensure theres at least a restaurant found, return and error to the user that is specific to searching for something less specific etc....
 router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, res) => {
   console.log('HIT START ROUTE 🦄🦄🦄🦄🦄')
-  console.log(req.body.objectId)
+  // console.log(req.body.objectId)
   db.MatchGame.findOne({_id: req.body._id})
   .then( foundGame => {
     console.log(foundGame)
