@@ -17,7 +17,7 @@ const options = {
 const userInstanceSchema = new Schema({
 	instance: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Instance'
+		ref: 'MatchGame'
 	},
 	name: String,
 	users: [{

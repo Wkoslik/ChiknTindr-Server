@@ -121,15 +121,43 @@ router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (re
 
 //     //this is for the instance that's created between friends
 // })
-
+//TODO: Populate on game instance
+//TODO: pair down and pipeline necessary query stuff
+//TODO: Conditional rendering 
 router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
-    db.User.findById(req.user)
-    .then(response =>{
-        res.send(response)
-    })
-    //res.status.json
-    //send user found user.userinstances
+    // req.user._id?
+    db.User.findById(req.user._id)
+        .populate({
+            path: 'userInstances.instance',
+            model: 'MatchGame'
+        
+        }).exec((err, userGames) => {
+                let instArr = []
+            userGames.userInstances.forEach(game =>{
+                let instanceObj = {
+                    name: game.name,
+                    complete: game.complete,
+                    started: game.started,
+                    creator: game.instance.creator,
+                    player: game.instance.player,
+                    creatorFinished: game.instance.creatorFinished,
+                    playerFinished: game.instance.playerFinished,
+                    result: game.instance.result
+                }
+                instArr = [instanceObj,...instArr]
+            })
+            console.log(instArr);
+            res.status(201).json(instArr)
+        })
 })
+    //old method
+    // db.User.findById(req.user)
+    // .then(response =>{
+    //     res.send(response)
+    // })
+    // //res.status.json
+    //send user found user.userinstances
+
 
 //TODO Remove this route, this is just to test the front end hitting the backend
 
