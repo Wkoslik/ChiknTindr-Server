@@ -21,10 +21,7 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
     //* Data Returned from Game */
     //* Handle information that comes back and parse into query term 
     // foundGame.preference = array of the preferences as strings must combine them
-      // console.log(foundGame[0].name)
-      // console.log(foundGame[0].preference)
-      // console.log(foundGame.name)
-      // console.log(foundGame.preference)
+      
       const gamePref = foundGame.preference.join();
       console.log(gamePref);
       // price array of prices as strings
@@ -34,12 +31,13 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
     //     //TODO: For now use "1,2" in search always until logic can be updated
     //   //*Build the query term 
     //     //base Yelp url:
+    // 
       const yelpBaseUrl = 'https://api.yelp.com/v3/businesses/search';
   
       const axiosURL = `${yelpBaseUrl}?location=${foundGame.location}&term=${foundGame.term},${gamePref}&price=1,2&limit=10` //TODO: Fix price here
 
     
-
+    
     // //*  Make the Axios Call
     axios.get(axiosURL, {
       headers: {
@@ -65,6 +63,8 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
         )
       })
       foundGame.save();
+      // Update the users from the game 
+    
       console.log(foundGame)
       res.status(201).json(foundGame)
       // console.log(foundGame);

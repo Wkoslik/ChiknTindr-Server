@@ -1,0 +1,18 @@
+console.log(foundGame.creator)
+      db.User.findOne({email: foundGame.creator})
+        .then( gameCreator =>{
+          gameCreator.userInstances.findOne({ instance: req.body.id})
+            .then(creatorInstance => {
+              creatorInstance.started = true
+              gameCreator.save()
+            })
+        })
+      console.log(foundGame.player)
+      db.User.findOne({email: foundGame.player})
+        .then( gamePlayer =>{
+          gamePlayer.userInstances.findOne({ instance: req.body.id})
+            .then(playerInstance => {
+              playerInstance.started = true
+              gamePlayer.save()
+            })
+        })
