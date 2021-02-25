@@ -47,7 +47,7 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
     // 
       const yelpBaseUrl = 'https://api.yelp.com/v3/businesses/search';
   
-      const axiosURL = `${yelpBaseUrl}?location=${foundGame.location}&term=${foundGame.term},${gamePref}&price=1,2&limit=10` //TODO: Fix price here
+      const axiosURL = `${yelpBaseUrl}?location=${foundGame.location}&term=${foundGame.term},${gamePref}&price=1,2&limit=5` //TODO: Fix price here
 
     
     
@@ -111,11 +111,11 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
     })
   })
 
-//TODO: Route for like/dislike
-  //! MUST TRACK FROM CLIENT END 
-    //!  req.body: 
-      //! game id,  current restaurant (id), email through req user
-        //! AND BOOLEAN from button (true / false)
+
+
+
+  //TODO: check if match vote and if match change game completed boolean, update both users instances completed boolean update results object in game
+  // TODO: use user instance completed boolean true and game completed boolean to redirect on restaurants to results
   router.patch('/gameVote',  passport.authenticate('jwt', { session: false }), (req, res) => {
     db.MatchGame.findOne( {_id : req.body.instanceId } )
       .then(game =>{
