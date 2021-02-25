@@ -10,7 +10,7 @@ const restSchema = new Schema({
   name: String,
   rating: Number,
   price: String,
-  yelpID: String,
+  yelpNum: String,
   number: String,
   categories: Array, //Array will come back with yelp objects structured alias / display 
   yelpUrl: String,
@@ -68,7 +68,7 @@ const matchGameSchema = new Schema({
   },
   result: {
     name: String,
-    yelpID: String
+    yelpAPI: String
   }
 }, options)
 

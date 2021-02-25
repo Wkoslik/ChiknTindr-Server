@@ -51,7 +51,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                 price: [req.user.preferences.foodPrice, foundUser.preferences.foodPrice],
                 dateCreated: Date.now(),
                 completed: false,
-                started: false
+                started: false,
             }).then(createdGame => {
                 // Update User logged in
                 //TODO: Add a help function / method to use array include javascript method to determine if a user already has invitee as a friend then do nothing if not add to friend array
@@ -146,9 +146,9 @@ router.get('/plansNew', passport.authenticate('jwt', { session: false }), (req, 
                 let instanceObj = {
                     name: game.name,
                     _id: game._id,
-                    //! Changed here
-                    complete: game.instance.complete,
-                    started: game.instance.started,
+                    instance: game.instance._id,
+                    complete: game.complete,
+                    started: game.started,
                     creator: game.instance.creator,
                     player: game.instance.player,
                     creatorFinished: game.instance.creatorFinished,
