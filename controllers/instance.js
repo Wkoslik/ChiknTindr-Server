@@ -125,6 +125,24 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
           restInGame.match.creatorVoted = true;
           restInGame.match.liked.push(req.body.vote)
           game.creatorArr.push(req.body.vote)
+          if (game.creatorArr.length === game.restaurants.length){
+            game.creatorFinished = true;
+            for(i=0; i < game.creatorArr.length; i++) {
+              if(game.creatorArr[i] === game.playerArr[i]){
+                game.completed = true;
+                game.result.name = game.restaurants[i].name;
+                game.result.yelpID = game.restaurants[i].yelpID;
+              }
+            };
+          } else {
+            for(i=0; i < game.creatorArr.length; i++) {
+              if(game.creatorArr[i] === game.playerArr[i]){
+                game.completed = true;
+                game.result.name = game.restaurants[i].name;
+                game.result.yelpID = game.restaurants[i].yelpID;
+              }
+            };
+          }
           game.save()
           res.status(201).send(game)
         }
@@ -134,6 +152,24 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
           restInGame.match.playerVoted = true;
           restInGame.match.liked.push(req.body.vote)
           game.playerArr.push(req.body.vote)
+          if (game.playerArr.length === game.restaurants.length){
+            game.playerFinished = true;
+            for(i=0; i < game.playerArr.length; i++) {
+              if(game.playerArr[i] === game.creatorArr[i]){
+                game.completed = true;
+                game.result.name = game.restaurants[i].name;
+                game.result.yelpID = game.restaurants[i].yelpID;
+              }
+            };
+          } else {
+            for(i=0; i < game.playerArr.length; i++) {
+              if(game.playerArr[i] === game.creatorArr[i]){
+                game.completed = true;
+                game.result.name = game.restaurants[i].name;
+                game.result.yelpID = game.restaurants[i].yelpID;
+              }
+            };
+          }
           game.save()
           res.status(201).send(game)
         }

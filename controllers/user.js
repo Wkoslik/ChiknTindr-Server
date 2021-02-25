@@ -124,7 +124,15 @@ router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (re
 //TODO: Populate on game instance
 //TODO: pair down and pipeline necessary query stuff
 //TODO: Conditional rendering 
-router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/plans',  passport.authenticate('jwt', { session: false }), (req, res) => { 
+      //old method
+    db.User.findById(req.user)
+    .then(response =>{
+        res.send(response)
+    })
+});
+
+router.get('/plansNew', passport.authenticate('jwt', { session: false }), (req, res) => {
     // req.user._id?
     db.User.findById(req.user._id)
         .populate({
@@ -136,6 +144,7 @@ router.get('/plans', passport.authenticate('jwt', { session: false }), (req, res
             userGames.userInstances.forEach(game =>{
                 let instanceObj = {
                     name: game.name,
+                    _id: game._id,
                     complete: game.complete,
                     started: game.started,
                     creator: game.instance.creator,
