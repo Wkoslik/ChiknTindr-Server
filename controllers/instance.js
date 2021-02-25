@@ -21,20 +21,20 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
     console.log(foundGame)
     //* Data Returned from Game */
     //* Handle information that comes back and parse into query term 
+    db.User.findOne({_id: req.user._id})
+    .then(user =>{
+      
+      const subDoc = user.userInstances.id(req.body.objectId)
+      subDoc.started = true;
+      user.save()
+      console.log(`🧢`)
+      console.log(user)
+      console.log(`🐙`)
+      console.log(subDoc)
+      
+      
+    })
     // foundGame.preference = array of the preferences as strings must combine them
-      db.User.findOne({_id: req.user._id})
-        .then(user =>{
-          
-          const subDoc = user.userInstances.id(req.body.objectId)
-          subDoc.started = true;
-          user.save()
-          console.log(`🚨🚨🚨🚨🚨🚨🚨🚨`)
-          console.log(user)
-          console.log(`🍑🍑🍑🍑🍑🍑`)
-          console.log(subDoc)
-
-            
-        })
       const gamePref = foundGame.preference.join();
       console.log(gamePref);
       // price array of prices as strings
@@ -70,8 +70,6 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
           yelpUrl: eatz.url,
           price: eatz.price,
           location: eatz.location
-
-
         }
         )
       })
@@ -122,10 +120,20 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
     db.MatchGame.findOne( {_id : req.body.instanceId } )
       .then(game =>{
         if (game.creator = req.user.email){
-
+          const restInGame = game.restaurants.id(req.body.restId)
+          restInGame.creatorVoted = true;
+          restInGame.liked.push(req.body.vote)
+          game.creatorArr.push(req.body.vote)
+          game.save()
+          res.status(201).send({ game: game, restaurant: restInGame })
         }
         if (game.player = req.user.email){
-
+          const restInGame = game.restaurants.id(req.body.restId)
+          restInGame.playerVoted = true;
+          restInGame.liked.push(req.body.vote)
+          game.playerArr.push(req.body.vote)
+          game.save()
+          res.status(201).send({ game: game, restaurant: restInGame })
         }
       })
   })
