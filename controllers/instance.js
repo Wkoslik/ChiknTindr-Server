@@ -33,7 +33,7 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
           console.log(`🍑🍑🍑🍑🍑🍑`)
           console.log(subDoc)
 
-            })
+            
         })
       const gamePref = foundGame.preference.join();
       console.log(gamePref);
@@ -84,12 +84,14 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
       // res.status(201).json(response)
       // res.send(response.data.businesses)
     })
+
+  })
     
     
+});
     //* Match results and do a database write for restaurants */
     // res.status(200).json(foundGame)
 
-  })
 
 //get detail for one game 
 router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, res) => {
