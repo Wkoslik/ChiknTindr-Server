@@ -119,21 +119,23 @@ router.get('/onegame',  passport.authenticate('jwt', { session: false }), (req, 
   router.patch('/gameVote',  passport.authenticate('jwt', { session: false }), (req, res) => {
     db.MatchGame.findOne( {_id : req.body.instanceId } )
       .then(game =>{
-        if (game.creator = req.user.email){
+        const creator = game.creator;
+        if (creator === req.user.email){
           const restInGame = game.restaurants.id(req.body.restId)
-          restInGame.creatorVoted = true;
-          restInGame.liked.push(req.body.vote)
+          restInGame.match.creatorVoted = true;
+          restInGame.match.liked.push(req.body.vote)
           game.creatorArr.push(req.body.vote)
           game.save()
-          res.status(201).send({ game: game, restaurant: restInGame })
+          res.status(201).send(game)
         }
-        if (game.player = req.user.email){
+        const player = game.player
+        if (player === req.user.email){
           const restInGame = game.restaurants.id(req.body.restId)
-          restInGame.playerVoted = true;
-          restInGame.liked.push(req.body.vote)
+          restInGame.match.playerVoted = true;
+          restInGame.match.liked.push(req.body.vote)
           game.playerArr.push(req.body.vote)
           game.save()
-          res.status(201).send({ game: game, restaurant: restInGame })
+          res.status(201).send(game)
         }
       })
   })
