@@ -23,6 +23,7 @@ router.patch('/start',  passport.authenticate('jwt', { session: false }), (req, 
     //* Handle information that comes back and parse into query term 
     if (foundGame.started === false){
       foundGame.started = true;
+      console.log(foundGame, '👀👀👀👀👀👀👀👀👀')
     // foundGame.preference = array of the preferences as strings must combine them
       const gamePref = foundGame.preference.join();
       console.log(gamePref);
