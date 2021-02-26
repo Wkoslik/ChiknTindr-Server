@@ -104,7 +104,8 @@ router.get('/restaurants/:id', passport.authenticate('jwt', { session: false }),
 
 
 
-
+//? Finds a game by its instance _id then allows for patching.
+  //Logic checks to see 
 router.patch('/gameVote', passport.authenticate('jwt', { session: false }), (req, res) => {
   db.MatchGame.findOne({ _id: req.body.instanceId })
     .then(game => {
