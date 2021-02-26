@@ -32,10 +32,9 @@ const restSchema = new Schema({
     } 
   }
 })
-//* changing instance to matchgame for semantic sense
+
 // Instance schema
-//TODO: refactor for any yelp API Call snags
-  //TODO: Add a total restaurants
+
 const matchGameSchema = new Schema({
   name: String,
   users: [{

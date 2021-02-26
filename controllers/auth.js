@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken')
 //URL prefix - '/api'
 
 
-//TODO: archive and clean up any erroneous code that has move to the user controller
+
 
 //signup - POST /api/signup
 router.post('/signup', (req, res) => {
@@ -45,7 +45,7 @@ router.post('/login', (req, res) => {
         })
 })
 
-//TODO: Move to User controller
+
 
 //GET  Test route
 router.get('/private', passport.authenticate('jwt', {session: false}), (req, res) =>{
