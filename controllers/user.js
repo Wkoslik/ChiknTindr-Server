@@ -38,6 +38,15 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
             // console.log(req.body.email)
             // console.log(user.email)
             if (!foundUser._id) return
+            //Friends list check and add
+            db.User.findOne({_id: req.user._id})
+            .then(mainUser =>{
+                if (!mainUser.friendsList.includes(foundUser._id)){
+                    mainUser.friendsList.push(foundUser._id)
+                    mainUser.save()
+
+                } 
+            })
             console.log(foundUser._id)
             console.log(req.user._id)
             db.MatchGame.create({

@@ -61,7 +61,10 @@ const matchGameSchema = new Schema({
   date: {type: Date, default: Date.now()},
   dateCreated: {type: Date, default: Date.now()},
   restaurants: [restSchema],
-  completed: Boolean,
+  completed: {
+    type: Boolean,
+    default: false
+  },
   started: {
     type: Boolean,
     default: false
