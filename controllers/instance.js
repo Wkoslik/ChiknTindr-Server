@@ -191,7 +191,7 @@ router.get('/result/:id', passport.authenticate('jwt', { session: false }), (req
     headers: {
       Authorization: `Bearer ${process.env.YELP_KEY}`
     }
-    // could add params here later
+  
   }).then(response => {
     res.status(201).json(response.data)
   })
@@ -199,8 +199,6 @@ router.get('/result/:id', passport.authenticate('jwt', { session: false }), (req
     res.status(500).json(err)
   })
 })
-
-
 
 
 module.exports = router;
