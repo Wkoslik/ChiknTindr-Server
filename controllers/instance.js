@@ -1,4 +1,4 @@
-//TODO: Finish this controller and plan routes
+
 
 // Import requirments and dependencies
 const express = require('express');
@@ -7,11 +7,6 @@ const router = express.Router();
 const passport = require('passport');
 const axios = require('axios');
 
-// router / controller routes
-// Displaying all user Games / Instances
-// Displaying a particular instance
-
-// GET and PATCH request to read the game instance and make a search
 //TODO: ensure theres at least a restaurant found, return and error to the user that is specific to searching for something less specific etc....
 router.patch('/start', passport.authenticate('jwt', { session: false }), (req, res) => {
   console.log('HIT START ROUTE 🦄🦄🦄🦄🦄')
@@ -23,14 +18,12 @@ router.patch('/start', passport.authenticate('jwt', { session: false }), (req, r
       //* Handle information that comes back and parse into query term 
       if (foundGame.started === false) {
         foundGame.started = true;
-        console.log(foundGame, '👀👀👀👀👀👀👀👀👀')
         // foundGame.preference = array of the preferences as strings must combine them
         const gamePref = foundGame.preference.join();
-        console.log(gamePref);
+        
         // price array of prices as strings
         //parse int and do math compare / switch for price search term 
         const minPrice = Math.min(...foundGame.price)
-        console.log(`attempt at minimum user price ${minPrice}`)
         //     //TODO: For now use "1,2" in search always until logic can be updated
         //   //*Build the query term 
         const yelpBaseUrl = 'https://api.yelp.com/v3/businesses/search';
@@ -85,23 +78,9 @@ router.patch('/start', passport.authenticate('jwt', { session: false }), (req, r
 router.get('/onegame', passport.authenticate('jwt', { session: false }), (req, res) => {
   db.MatchGame.findOne({ _id: req.body._id })
     .then(foundGame => {
-      console.log(foundGame)
       res.status(201).json(foundGame)
     })
 })
-
-//TODO: Restaurants for display and like action 
-// Client pulls game instance using req.params.id 
-//? /game/restuarants/:id
-router.get('/restaurants/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  db.MatchGame.findById(req.params.id)
-    .then(game => {
-      console.log(game)
-      res.status(201).json(game)
-    })
-})
-
-
 
 
 //? Finds a game by its instance _id then allows for patching.
@@ -169,15 +148,7 @@ router.patch('/gameVote', passport.authenticate('jwt', { session: false }), (req
       }
     })
 })
-//Update each restaurant:
-/*
-  liked array - push boolean update ever vote
-  creator voted -boolean - update corresponding vote
-  player voted -boolean - update corresponding vote 
-  complete - boolean if both users have liked
- */
-//TODO: Nested logic for moving to results 
-// grab matches, switch on user lists, update matchgame model
+
 
 //get business details  
 
@@ -204,5 +175,3 @@ router.get('/result/:id', passport.authenticate('jwt', { session: false }), (req
 
 module.exports = router;
 
-//Planning any middlewear
-  //TODO: Write non REST logic functions

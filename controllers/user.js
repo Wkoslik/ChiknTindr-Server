@@ -1,7 +1,3 @@
-//user.js handles all routes the user will be on with the exception of signup and login which are handled by auth
-//This can be renamed or resorted
-//TODO: in general user returns from backend have password there middle wear or a hook in the model that can prevent the user from having the hashed password?, Is this not an issue especially since other users can be read?
-
 
 const express = require('express')
 const db = require('../models')
@@ -31,12 +27,11 @@ router.put('/preferences', passport.authenticate('jwt', { session: false }), (re
         res.status(201).json(user)
     })
 });
-    //TODO: TODO check user instance and any front end based update to the user model instance stuff whitney added
+    //? Invites the user and pulls pref and data from invite form, if the user isn't already a friend it adds the user to their friends list
 router.post('/invite', passport.authenticate('jwt', { session: false }), (req, res) => {
     db.User.findOne({ email: req.body.email })
         .then(foundUser => {
-            // console.log(req.body.email)
-            // console.log(user.email)
+
             if (!foundUser._id) return
             //Friends list check and add
             db.User.findOne({_id: req.user._id})
@@ -63,7 +58,6 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                 started: false,
             }).then(createdGame => {
                 // Update User logged in
-                //TODO: Add a help function / method to use array include javascript method to determine if a user already has invitee as a friend then do nothing if not add to friend array
                 db.User.findByIdAndUpdate(
                     { _id: req.user._id },
                     {
@@ -113,35 +107,7 @@ router.get('/test', passport.authenticate('jwt', { session: false }), (req, res)
         })
 })
 
-
-//test no user solve 
-router.get('/test/nouser', passport.authenticate('jwt', { session: false }), (req, res) => {
-    db.User.findOne({ email: req.body.email })
-    .then(foundUser => {
-        console.log(foundUser.name)
-        res.status(201).json({ message: "there is a user" })
-    }).catch(err => {
-        console.log(`Error no such user! ${err}`)
-        res.status(400).json({ message: "sorry there isnt a user" })
-    })
-})
-
-
-// router.get('/:id', (req, res) => {
-
-//     //this is for the instance that's created between friends
-// })
-//TODO: Populate on game instance
-//TODO: pair down and pipeline necessary query stuff
-//TODO: Conditional rendering 
-router.get('/plans',  passport.authenticate('jwt', { session: false }), (req, res) => { 
-      //old method
-    db.User.findById(req.user)
-    .then(response =>{
-        res.send(response)
-    })
-});
-
+//? Gets plans of the user logged in, uses populate to get only the data needed for the front end
 router.get('/plansNew', passport.authenticate('jwt', { session: false }), (req, res) => {
     // req.user._id?
     db.User.findById(req.user._id)
@@ -170,32 +136,8 @@ router.get('/plansNew', passport.authenticate('jwt', { session: false }), (req, 
             res.status(201).json(instArr)
         })
 })
-    //old method
-    // db.User.findById(req.user)
-    // .then(response =>{
-    //     res.send(response)
-    // })
-    // //res.status.json
-    //send user found user.userinstances
 
-
-//TODO Remove this route, this is just to test the front end hitting the backend
-
-router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
-    console.log('YOU HIT THE BACKEND')
-})
-    //     //this is for the instance that's created between friends
-    // })
-  
-    
-    //TODO Remove this route, this is just to test the front end hitting the backend
-    
-    router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (req, res) => {
-        console.log('YOU HIT THE BACKEND')
-    })
-    
-    //TODO: Friends List testing
-    //get a user by email
+    //? Here is a test route still needed for testing insomnia pls dont delete
     router.get('/search', passport.authenticate('jwt', { session: false }), (req, res) => { 
         db.User.findOne({ email: req.body.email })
         .then(foundUser =>{
@@ -203,8 +145,7 @@ router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (r
             res.status(201).json(foundUser)
         })
     })
-    //TODO: Add same helper function here to check array.includes boolean to determine whether or not it actually adds a friend or not if the friend already exists
-    // add a friend route
+    //? Test route for adding friend
     router.patch('/addfriend',  passport.authenticate('jwt', { session: false }), (req, res) => {
         db.User.findOne({_id: req.user._id})
         .then(mainUser =>{
@@ -215,14 +156,13 @@ router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (r
             res.status(201).json(mainUser);
         })
 })
-// display friends route and populate 
+//? display friends route and populate 
 
     router.get('/friendslist', passport.authenticate('jwt', { session: false }), (req, res) => {
         db.User.findOne({_id: req.user._id})
             .populate('friendsList').exec((err, userFriends) =>{
                 let friendListArray = [];
 
-                console.log(userFriends);
                 userFriends.friendsList.forEach(friend =>{
                     let friendObj = {
                         name: friend.name,
@@ -230,7 +170,6 @@ router.get('/test/nouser2', passport.authenticate('jwt', { session: false }), (r
                     }
                     friendListArray = [friendObj, ...friendListArray]
                 })
-                console.log(friendListArray);
                     //for each loop make a new object to send
                 res.status(201).json({ friendslist: friendListArray });
             })
