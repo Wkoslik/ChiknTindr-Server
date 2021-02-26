@@ -8,12 +8,10 @@ const passport = require('passport');
 const axios = require('axios');
 
 //TODO: ensure theres at least a restaurant found, return and error to the user that is specific to searching for something less specific etc....
-router.patch('/start', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log('HIT START ROUTE 🦄🦄🦄🦄🦄')
-  // console.log(req.body.objectId)
+router.patch('/start', passport.authenticate('jwt', { session: false }), (req, res) => {  
   db.MatchGame.findOne({ _id: req.body._id })
     .then(foundGame => {
-      console.log(foundGame)
+
       //* Data Returned from Game */
       //* Handle information that comes back and parse into query term 
       if (foundGame.started === false) {
@@ -39,7 +37,7 @@ router.patch('/start', passport.authenticate('jwt', { session: false }), (req, r
           }
           // could add params here later
         }).then(response => {
-          console.log(response.data.businesses)
+          
           response.data.businesses.forEach(eatz => {
             foundGame.restaurants.push(
               {
@@ -55,13 +53,9 @@ router.patch('/start', passport.authenticate('jwt', { session: false }), (req, r
             )
           })
           foundGame.save();
-          // Update the users from the game 
 
-          console.log(foundGame)
           res.status(201).json(foundGame)
-          // console.log(foundGame);
-          // res.status(201).json(response)
-          // res.send(response.data.businesses)
+          
         })
       } else {
         res.status(201).json(foundGame)
@@ -153,7 +147,7 @@ router.patch('/gameVote', passport.authenticate('jwt', { session: false }), (req
 //get business details  
 
 router.get('/result/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  console.log(req.params)
+  
   const yelpBaseUrl = 'https://api.yelp.com/v3/businesses';
 
   const axiosURL = `${yelpBaseUrl}/${req.params.id}`

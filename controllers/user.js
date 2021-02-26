@@ -17,13 +17,10 @@ router.get('/profile', (req, res) => {
 })
 //* put req allow user read and update 
 router.put('/preferences', passport.authenticate('jwt', { session: false }), (req, res) => {
-    // res.status(201).json({ message: 'Thou hast granted the glorious chinkn tindr message'})
-    // console.log(req.user._id)
-    // console.log(req.user._id)
+
     db.User.findByIdAndUpdate(req.user._id, {
         preferences: { foodPreferences: [req.body.dietary], foodPrice: req.body.price }
     }).then(user => {
-        console.log(user)
         res.status(201).json(user)
     })
 });
@@ -42,8 +39,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
 
                 } 
             })
-            console.log(foundUser._id)
-            console.log(req.user._id)
+            
             db.MatchGame.create({
                 name: req.body.description,
                 users: [foundUser._id, req.user._id],
@@ -81,7 +77,6 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                         }, ...foundUser.userInstances
                         ]
                     }).then(user2 => console.log(`User 2: Game pushed to model:\n ${user2}`))
-                    console.log(createdGame)
                 res.status(200).json(createdGame)
             })
         }).catch(err => {
@@ -132,7 +127,7 @@ router.get('/plansNew', passport.authenticate('jwt', { session: false }), (req, 
                 }
                 instArr = [instanceObj,...instArr]
             })
-            console.log(instArr);
+            
             res.status(201).json(instArr)
         })
 })
@@ -141,7 +136,6 @@ router.get('/plansNew', passport.authenticate('jwt', { session: false }), (req, 
     router.get('/search', passport.authenticate('jwt', { session: false }), (req, res) => { 
         db.User.findOne({ email: req.body.email })
         .then(foundUser =>{
-            console.log(foundUser)
             res.status(201).json(foundUser)
         })
     })
@@ -149,7 +143,6 @@ router.get('/plansNew', passport.authenticate('jwt', { session: false }), (req, 
     router.patch('/addfriend',  passport.authenticate('jwt', { session: false }), (req, res) => {
         db.User.findOne({_id: req.user._id})
         .then(mainUser =>{
-            console.log(req.body._id)
             mainUser.friendsList.push(req.body._id)
             mainUser.save()
             console.log('friendship success 🍑 🍑 🍑 🍑 🍑 🍑')
