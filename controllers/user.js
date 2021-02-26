@@ -45,7 +45,7 @@ router.post('/invite', passport.authenticate('jwt', { session: false }), (req, r
                     mainUser.friendsList.push(foundUser._id)
                     mainUser.save()
 
-                } else return
+                } 
             })
             console.log(foundUser._id)
             console.log(req.user._id)
